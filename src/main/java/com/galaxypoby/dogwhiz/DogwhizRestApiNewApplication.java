@@ -1,13 +1,14 @@
-package com.galaxypoby.dogwhizrestapinew;
+package com.galaxypoby.dogwhiz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableJpaAuditing
 @SpringBootApplication
 public class DogwhizRestApiNewApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DogwhizRestApiNewApplication.class, args);
 	}
-
 }
