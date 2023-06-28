@@ -1,5 +1,6 @@
 package com.galaxypoby.dogwhiz.member.dto;
 
+import com.galaxypoby.dogwhiz.member.entity.MemberImage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,6 +37,7 @@ public class RequestMemberDto {
 
     @Getter
     public static class EditMemberDto {
+        private String email;
         private String password;
         private String rePassword;
         private String nickname;

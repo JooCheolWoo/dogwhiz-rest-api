@@ -27,7 +27,6 @@ dependencies {
 	// orm
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6' // DB 쿼리 확인용 (배포시 사용 금지)
 
 	// 보안
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -37,11 +36,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// MapStruct
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	// MapStruct (너무 귀찮아서 보류)
+//	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+//	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+//	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+	// model mapper
+	implementation 'org.modelmapper:modelmapper:3.1.1'
 
 	// 기타
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'

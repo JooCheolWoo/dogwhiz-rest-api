@@ -28,14 +28,14 @@ public class MemberApiController {
         return memberService.findMember(memberId);
     }
 
-    @PatchMapping("/{memberId}")
-    public CustomResponse memberModify(@PathVariable(name = "memberId") Long memberId,
-                                       @RequestBody RequestMemberDto.EditMemberDto request) throws CustomException {
-        return memberService.modifyMember(memberId, request);
-    }
-
-    @DeleteMapping("/{memberId}")
-    public CustomResponse memberRemove(@PathVariable(name = "memberId") Long memberId) throws CustomException {
-        return memberService.removeMember(memberId);
-    }
+//    @PatchMapping("/{memberId}")
+//    public CustomResponse memberModify(@PathVariable(name = "memberId") Long memberId,
+//                                       @RequestBody RequestMemberDto.EditMemberDto request) throws CustomException {
+//        return memberService.modifyMember(memberId, request);
+//    }
+//
+//    @DeleteMapping("/{memberId}")
+//    public CustomResponse memberRemove(@PathVariable(name = "memberId") Long memberId) throws CustomException {
+//        return memberService.removeMember(memberId);
+//    }
 }

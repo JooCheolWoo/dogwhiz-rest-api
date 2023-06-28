@@ -6,21 +6,26 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
-import com.galaxypoby.dogwhiz.member.entity.MemberMapper;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public CustomResponse addMember(RequestMemberDto.MemberDto request) throws CustomException {
@@ -40,12 +45,15 @@ public class MemberService {
             throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
         }
 
-        Member member = MemberMapper.INSTANCE.requestMemberDtotoMember(request);
-        member.encodePwd(passwordEncoder.encode(member.getPassword()));
+        Member member = modelMapper.map(request, Member.class);
+        log.info(member.getEmail());
+
+        member.setUpUser();
+        member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
         memberRepository.save(member);
 
-        ResponseMemberDto.MemberDto response = MemberMapper.INSTANCE.toResponseMemberDto(member);
+        ResponseMemberDto.MemberDto response = modelMapper.map(member, ResponseMemberDto.MemberDto.class);
 
         return new CustomResponse(ErrorCode.OK, response);
     }
@@ -70,7 +78,8 @@ public class MemberService {
 
     public CustomResponse findMemberList() {
         List<Member> members = memberRepository.findAll();
-        List<ResponseMemberDto.MemberDto> response = MemberMapper.INSTANCE.toResponseMemberDtoList(members);
+        Type listType = new TypeToken<List<ResponseMemberDto.MemberDto>>() {}.getType().getClass();
+        List<ResponseMemberDto.MemberDto> response = modelMapper.map(members, listType);
 
         return new CustomResponse(ErrorCode.OK, response);
     }
@@ -79,44 +88,44 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
 
-        ResponseMemberDto.MemberDto response = MemberMapper.INSTANCE.toResponseMemberDto(member);
+//        ResponseMemberDto.MemberDto response = modelMapper.map(member, ResponseMemberDto.MemberDto.class);
 
-        return new CustomResponse(ErrorCode.OK, response);
+        return new CustomResponse(ErrorCode.OK, member);
     }
-
-    @Transactional
-    public CustomResponse modifyMember(Long memberId, RequestMemberDto.EditMemberDto request) throws CustomException {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-
-        if (request.getPassword() != null &&
-                !passwordEncoder.matches(member.getPassword(), request.getPassword())) {
-            if (!request.getPassword().equals(request.getRePassword())) {
-                throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
-            }
-            member.updatePwd(passwordEncoder.encode(request.getPassword()));
-        }
-
-        if (request.getNickname() != null &&
-                !member.getNickname().equals(request.getNickname())) {
-            if (!(canUseNickname(request.getNickname()).getStatus() == 0)) {
-                throw new CustomException(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
-            }
-            member.updateNickname(request.getNickname());
-        }
-
-        ResponseMemberDto.MemberDto response = MemberMapper.INSTANCE.toResponseMemberDto(member);
-
-        return new CustomResponse(ErrorCode.OK, response);
-    }
-
-    @Transactional
-    public CustomResponse removeMember(Long memberId) throws CustomException {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-
-        member.delete();
-
-        return new CustomResponse(ErrorCode.OK);
-    }
+//
+//    @Transactional
+//    public CustomResponse modifyMember(Long memberId, RequestMemberDto.EditMemberDto request) throws CustomException {
+//        Member member = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+//
+//        if (request.getPassword() != null &&
+//                !passwordEncoder.matches(member.getPassword(), request.getPassword())) {
+//            if (!request.getPassword().equals(request.getRePassword())) {
+//                throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
+//            }
+//            member.updatePwd(passwordEncoder.encode(request.getPassword()));
+//        }
+//
+//        if (request.getNickname() != null &&
+//                !member.getNickname().equals(request.getNickname())) {
+//            if (!(canUseNickname(request.getNickname()).getStatus() == 0)) {
+//                throw new CustomException(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
+//            }
+//            member.updateNickname(request.getNickname());
+//        }
+//
+//        ResponseMemberDto.MemberDto response = MemberMapper.INSTANCE.toResponseMemberDto(member);
+//
+//        return new CustomResponse(ErrorCode.OK, response);
+//    }
+//
+//    @Transactional
+//    public CustomResponse removeMember(Long memberId) throws CustomException {
+//        Member member = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+//
+//        member.delete();
+//
+//        return new CustomResponse(ErrorCode.OK);
+//    }
 }
