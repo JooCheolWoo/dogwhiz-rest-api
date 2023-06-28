@@ -6,6 +6,8 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
+import com.galaxypoby.dogwhiz.member.entity.MemberDetail;
+import com.galaxypoby.dogwhiz.member.repository.MemberDetailRepository;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +27,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MemberDetailRepository memberDetailRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
@@ -88,9 +92,9 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
 
-//        ResponseMemberDto.MemberDto response = modelMapper.map(member, ResponseMemberDto.MemberDto.class);
+        ResponseMemberDto.MemberDetailDto response = modelMapper.map(member, ResponseMemberDto.MemberDetailDto.class);
 
-        return new CustomResponse(ErrorCode.OK, member);
+        return new CustomResponse(ErrorCode.OK, response);
     }
 //
 //    @Transactional

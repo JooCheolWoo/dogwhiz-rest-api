@@ -29,12 +29,12 @@ CREATE TABLE IF NOT EXISTS `member_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `member_detail` (
-    `detail_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `member_id` BIGINT(20) UNSIGNED NOT NULL,
+    `name` VARCHAR(20) NOT NULL,
     `gender` TINYINT(1) NOT NULL,
     `birth` DATE NOT NULL,
     `phone` VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`detail_id`),
+    PRIMARY KEY (`member_id`),
     FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -1,9 +1,12 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -15,12 +18,18 @@ import java.time.LocalDate;
 public class MemberDetail {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "detail_id", updatable = false)
-    private Long id;
+    @Column(name = "member_id")
+    private Long memberId;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "member_id")
     private Member member;
+
+    @Comment("이름")
+    @Column(nullable = false, columnDefinition = "VARCHAR(20)")
+    private String name;
 
     @Comment("성별")
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
@@ -33,4 +42,20 @@ public class MemberDetail {
     @Comment("전화번호")
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String phone;
+
+    @JsonGetter("gender")
+    public String getGenderString() {
+        return gender ? "여자" : "남자";
+    }
+
+    @JsonGetter("phone")
+    public String getFormattedPhone() {
+        String rawPhone = phone;
+        if (rawPhone.length() == 10) {
+            return rawPhone.replaceFirst("(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3");
+        } else if (rawPhone.length() == 11) {
+            return rawPhone.replaceFirst("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
+        }
+        return rawPhone;
+    }
 }

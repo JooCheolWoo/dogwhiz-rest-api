@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
@@ -83,14 +82,21 @@ public class Member {
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
-    @OneToOne(mappedBy = "member" , cascade = CascadeType.ALL)
-    private MemberImage memberImage;
-
-    @OneToOne(mappedBy = "member" , cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail memberDetail;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberAddress> addresses = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MemberAddress> memberAddresses;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MemberImage> memberImages;
+
+    public void setMemberDetail(MemberDetail memberDetail) {
+        this.memberDetail = memberDetail;
+    }
 
     public void setUpUser() {
         this.authCd = AuthCode.USER_NORMAL.getCode();
