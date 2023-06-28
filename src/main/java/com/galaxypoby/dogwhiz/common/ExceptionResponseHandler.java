@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @Slf4j
 @RestControllerAdvice("com.galaxypoby.dogwhiz")
 public class ExceptionResponseHandler {
@@ -15,5 +17,12 @@ public class ExceptionResponseHandler {
     public CustomResponse CustomException(CustomException e) {
         log.error(e.getLocalizedMessage());
         return new CustomResponse<>(e.getErrorCode());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+    public CustomResponse SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
+        log.error(e.getLocalizedMessage());
+        return new CustomResponse<>(e.getErrorCode(), null, e.getMessage());
     }
 }
