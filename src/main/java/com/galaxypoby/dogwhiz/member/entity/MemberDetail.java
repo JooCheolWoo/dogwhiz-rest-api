@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -13,13 +12,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "member_detail")
-public class MemberDetail implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class MemberDetail {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "detail_id", updatable = false)
+    private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     @Comment("성별")

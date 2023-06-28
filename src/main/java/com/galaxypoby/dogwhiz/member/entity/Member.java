@@ -83,18 +83,13 @@ public class Member {
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "member" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "member" , cascade = CascadeType.ALL)
     private MemberImage memberImage;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "member" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "member" , cascade = CascadeType.ALL)
     private MemberDetail memberDetail;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAddress> addresses = new ArrayList<>();
 
     public void setUpUser() {
