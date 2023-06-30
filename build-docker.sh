@@ -40,5 +40,6 @@ docker run -d \
     ${APP_NAME}:${server_version}
 
 
+
 # docker logs show
 docker logs -f ${APP_NAME}
