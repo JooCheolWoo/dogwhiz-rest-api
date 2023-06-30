@@ -36,8 +36,8 @@ docker run -d \
     --network nginx-proxy \
     --restart unless-stopped \
     --name ${APP_NAME} \
-    --excute 80 \
-    ${APP_NAME}
+    --expose 80 \
+    ${APP_NAME}:${server_version}
 
 
 # docker logs show
