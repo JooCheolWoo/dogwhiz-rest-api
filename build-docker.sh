@@ -31,8 +31,8 @@ docker rmi ${APP_NAME_OLD}:${server_version}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
-    -e VIRTUAL_HOST=www.hellodogwhiz.com,hellodogwhiz.com \
-    -e LETSENCRYPT_HOST=www.hellodogwhiz.com,hellodogwhiz.com \
+    -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
+    -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     --network nginx-proxy \
 #    --env-file /home/galaxypoby/documents/dogwhiz.env \
