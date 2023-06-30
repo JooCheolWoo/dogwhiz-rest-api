@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                 .cors().and()
                 .headers().frameOptions().disable().and()
                 .authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/api/v1/members").permitAll()
                 .antMatchers("/api/v1/members/**").permitAll()
                 .anyRequest().authenticated().and()

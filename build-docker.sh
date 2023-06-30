@@ -5,7 +5,7 @@ APP_NAME_OLD="${APP_NAME}-old"
 server_version="0.0.1"
 
 source ./yaml.sh
-source /home/galaxypoby/projects/documents/dogwhiz-environments.sh
+#source /home/galaxypoby/projects/documents/dogwhiz-environments.sh
 
 # 1. Change the current docker container name to old
 echo "---------- [Deploy Step - 1] : Rename Current Docker Container"
@@ -35,7 +35,7 @@ docker run -d \
     -e LETSENCRYPT_HOST=www.hellodogwhiz.com,hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     --network nginx-proxy \
-    --env-file /home/galaxypoby/documents/dogwhiz.env \
+#    --env-file /home/galaxypoby/documents/dogwhiz.env \
     --restart unless-stopped \
     --name ${APP_NAME} \
     --excute 80 \
