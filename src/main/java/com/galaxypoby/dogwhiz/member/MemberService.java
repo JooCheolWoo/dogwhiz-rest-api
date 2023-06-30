@@ -6,8 +6,6 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
-import com.galaxypoby.dogwhiz.member.entity.MemberDetail;
-import com.galaxypoby.dogwhiz.member.repository.MemberDetailRepository;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -27,12 +24,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberDetailRepository memberDetailRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
     @Transactional
-    public CustomResponse addMember(RequestMemberDto.MemberDto request) throws CustomException {
+    public CustomResponse addMember(RequestMemberDto.SingUpDto request) throws CustomException {
 
         // 이메일 중복검사 (이미 존재하면 false)
         if (!(canUseEmail(request.getEmail()).getStatus() == 0)) {
@@ -96,40 +92,22 @@ public class MemberService {
 
         return new CustomResponse(ErrorCode.OK, response);
     }
-//
-//    @Transactional
-//    public CustomResponse modifyMember(Long memberId, RequestMemberDto.EditMemberDto request) throws CustomException {
-//        Member member = memberRepository.findById(memberId)
-//                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-//
-//        if (request.getPassword() != null &&
-//                !passwordEncoder.matches(member.getPassword(), request.getPassword())) {
-//            if (!request.getPassword().equals(request.getRePassword())) {
-//                throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
-//            }
-//            member.updatePwd(passwordEncoder.encode(request.getPassword()));
-//        }
-//
-//        if (request.getNickname() != null &&
-//                !member.getNickname().equals(request.getNickname())) {
-//            if (!(canUseNickname(request.getNickname()).getStatus() == 0)) {
-//                throw new CustomException(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
-//            }
-//            member.updateNickname(request.getNickname());
-//        }
-//
-//        ResponseMemberDto.MemberDto response = MemberMapper.INSTANCE.toResponseMemberDto(member);
-//
-//        return new CustomResponse(ErrorCode.OK, response);
-//    }
-//
-//    @Transactional
-//    public CustomResponse removeMember(Long memberId) throws CustomException {
-//        Member member = memberRepository.findById(memberId)
-//                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-//
-//        member.delete();
-//
-//        return new CustomResponse(ErrorCode.OK);
-//    }
+
+    @Transactional
+    public CustomResponse modifyMember(Long memberId, RequestMemberDto.EditDto request) throws CustomException {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+        return new CustomResponse(ErrorCode.OK);
+    }
+
+    @Transactional
+    public CustomResponse removeMember(Long memberId) throws CustomException {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+        member.leave();
+
+        return new CustomResponse(ErrorCode.OK);
+    }
 }

@@ -1,8 +1,6 @@
 package com.galaxypoby.dogwhiz.member.dto;
 
-import com.galaxypoby.dogwhiz.member.entity.MemberImage;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,7 +18,7 @@ public class RequestMemberDto {
     }
 
     @Getter
-    public static class MemberDto {
+    public static class SingUpDto {
         @Email(message = "이메일 형식에 맞지 않습니다.")
         @NotBlank(message = "이메일을 입력해주세요.")
         private String email;
@@ -36,7 +34,7 @@ public class RequestMemberDto {
     }
 
     @Getter
-    public static class EditMemberDto {
+    public static class EditDto {
         private String email;
         private String password;
         private String rePassword;

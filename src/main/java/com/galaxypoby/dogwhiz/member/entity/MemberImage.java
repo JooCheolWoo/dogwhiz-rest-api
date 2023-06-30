@@ -21,7 +21,7 @@ public class MemberImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
-    private Long imageId;
+    private Long id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,8 +56,4 @@ public class MemberImage {
     @Comment("삭제일")
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
 }

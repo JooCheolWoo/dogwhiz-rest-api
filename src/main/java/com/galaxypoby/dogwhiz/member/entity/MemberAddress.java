@@ -39,7 +39,4 @@ public class MemberAddress {
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
     private String addressDetail;
 
-    public void setMember(Member member) {
-        this.member = member;
-    }
 }

@@ -14,7 +14,7 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @PostMapping
-    public CustomResponse memberAdd(@RequestBody RequestMemberDto.MemberDto request) throws CustomException {
+    public CustomResponse memberAdd(@RequestBody RequestMemberDto.SingUpDto request) throws CustomException {
         return memberService.addMember(request);
     }
 
@@ -28,14 +28,14 @@ public class MemberApiController {
         return memberService.findMember(memberId);
     }
 
-//    @PatchMapping("/{memberId}")
-//    public CustomResponse memberModify(@PathVariable(name = "memberId") Long memberId,
-//                                       @RequestBody RequestMemberDto.EditMemberDto request) throws CustomException {
-//        return memberService.modifyMember(memberId, request);
-//    }
-//
-//    @DeleteMapping("/{memberId}")
-//    public CustomResponse memberRemove(@PathVariable(name = "memberId") Long memberId) throws CustomException {
-//        return memberService.removeMember(memberId);
-//    }
+    @PatchMapping("/{memberId}")
+    public CustomResponse memberModify(@PathVariable(name = "memberId") Long memberId,
+                                       @RequestBody RequestMemberDto.EditDto request) throws CustomException {
+        return memberService.modifyMember(memberId, request);
+    }
+
+    @DeleteMapping("/{memberId}")
+    public CustomResponse memberRemove(@PathVariable(name = "memberId") Long memberId) throws CustomException {
+        return memberService.removeMember(memberId);
+    }
 }

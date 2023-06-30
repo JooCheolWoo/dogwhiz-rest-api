@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -19,7 +18,7 @@ public class MemberDetail {
 
     @Id
     @Column(name = "member_id")
-    private Long memberId;
+    private Long id;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
@@ -42,10 +41,6 @@ public class MemberDetail {
     @Comment("전화번호")
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String phone;
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
 
     @JsonGetter("gender")
     public String getGenderString() {

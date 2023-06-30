@@ -96,21 +96,6 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemberImage> memberImages;
 
-    public void setMemberDetail(MemberDetail memberDetail) {
-        memberDetail.setMember(this);
-        this.memberDetail = memberDetail;
-    }
-
-    public void addMemberAddress(MemberAddress memberAddress) {
-        memberAddress.setMember(this);
-        this.memberAddresses.add(memberAddress);
-    }
-
-    public void addMemberImage(MemberImage memberImage) {
-        memberImage.setMember(this);
-        this.memberImages.add(memberImage);
-    }
-
     public void setUpUser() {
         this.authCd = AuthCode.USER_NORMAL.getCode();
         this.statusCd = StatusCode.USER_WAIT.getCode();
@@ -126,9 +111,12 @@ public class Member {
         this.lastLoginDate = LocalDateTime.now();
     }
 
-    public void editInfo(RequestMemberDto.EditMemberDto request) {
-        this.email = request.getEmail();
-        this.password = request.getPassword();
-        this.nickname = request.getNickname();
+    public void editInfo(RequestMemberDto.EditDto request) {
+
+    }
+
+    public void leave() {
+        this.statusCd = StatusCode.USER_LEAVE.getCode();
+        this.deletedAt = LocalDateTime.now();
     }
 }
