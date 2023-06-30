@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk
 
-EXPOSE 80
+EXPOSE 10800
 
 COPY ./build/libs/dogwhiz-rest-api-0.0.1-SNAPSHOT.jar /dogwhiz-rest-api.jar
 
