@@ -36,9 +36,8 @@ docker run -d \
     --network nginx-proxy \
     --restart unless-stopped \
     --name ${APP_NAME} \
+    -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     ${APP_NAME}:${server_version}
-
-
 
 # docker logs show
 docker logs -f ${APP_NAME}

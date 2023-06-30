@@ -28,7 +28,7 @@ public class TestController {
         System.out.println("용량크기(byte) : " + size);
         //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
         String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
-        String uploadFolder = "/home/galaxypoby/storage/dogwhiz-dev";
+        String uploadFolder = "/home";
 
 
 		/*
