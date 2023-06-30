@@ -3,12 +3,10 @@ package com.galaxypoby.dogwhiz.member.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.galaxypoby.dogwhiz.code.AuthCode;
 import com.galaxypoby.dogwhiz.code.StatusCode;
-import com.galaxypoby.dogwhiz.member.entity.Member;
 import com.galaxypoby.dogwhiz.member.entity.MemberAddress;
 import com.galaxypoby.dogwhiz.member.entity.MemberDetail;
 import com.galaxypoby.dogwhiz.member.entity.MemberImage;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;

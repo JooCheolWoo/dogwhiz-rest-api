@@ -43,6 +43,10 @@ public class MemberDetail {
     @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String phone;
 
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
     @JsonGetter("gender")
     public String getGenderString() {
         return gender ? "여자" : "남자";

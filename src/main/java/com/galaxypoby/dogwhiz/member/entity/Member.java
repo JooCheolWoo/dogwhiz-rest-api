@@ -5,14 +5,16 @@ import com.galaxypoby.dogwhiz.code.AuthCode;
 import com.galaxypoby.dogwhiz.code.StatusCode;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.util.IpAnalyzer;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -95,7 +97,18 @@ public class Member {
     private List<MemberImage> memberImages;
 
     public void setMemberDetail(MemberDetail memberDetail) {
+        memberDetail.setMember(this);
         this.memberDetail = memberDetail;
+    }
+
+    public void addMemberAddress(MemberAddress memberAddress) {
+        memberAddress.setMember(this);
+        this.memberAddresses.add(memberAddress);
+    }
+
+    public void addMemberImage(MemberImage memberImage) {
+        memberImage.setMember(this);
+        this.memberImages.add(memberImage);
     }
 
     public void setUpUser() {

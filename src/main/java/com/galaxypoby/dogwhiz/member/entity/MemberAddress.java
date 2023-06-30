@@ -1,12 +1,13 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,4 +38,8 @@ public class MemberAddress {
     @Comment("상세주소")
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
     private String addressDetail;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
