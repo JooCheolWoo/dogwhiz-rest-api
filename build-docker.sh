@@ -30,8 +30,8 @@ docker rmi ${APP_NAME_OLD}:${server_version}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
-    -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
-    -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
+    -e VIRTUAL_HOST=hellodogwhiz.com \
+    -e LETSENCRYPT_HOST=hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     -e VIRTUAL_PORT=10800 \
     --network nginx-proxy \
