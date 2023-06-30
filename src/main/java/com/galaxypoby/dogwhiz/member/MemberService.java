@@ -46,8 +46,6 @@ public class MemberService {
         }
 
         Member member = modelMapper.map(request, Member.class);
-        log.info(member.getEmail());
-
         member.setUpUser();
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
