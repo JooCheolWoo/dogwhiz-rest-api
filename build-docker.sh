@@ -33,7 +33,7 @@ docker run -d \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
-    -VIRTUAL_HOST 10800 \
+    -e VIRTUAL_PORT 10800 \
     --network nginx-proxy \
     --restart unless-stopped \
     --name ${APP_NAME} \
