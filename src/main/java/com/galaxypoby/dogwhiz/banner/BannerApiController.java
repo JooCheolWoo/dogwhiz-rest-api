@@ -15,9 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/banners")
 public class BannerApiController {
 
+    private final BannerService bannerService;
+
     @PostMapping
     public CustomResponse bannerAdd(@RequestPart(name = "request")RequestBannerDto.ResisterDto request,
                                     @RequestPart(name = "file")MultipartFile file) throws CustomException {
-
+        return bannerService.addBanner(request, file);
     }
 }
