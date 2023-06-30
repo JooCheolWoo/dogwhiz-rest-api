@@ -39,7 +39,7 @@ docker run -d \
     --restart unless-stopped \
     --name ${APP_NAME} \
     --excute 80 \
-    ${APP_NAME}:${server_version}
+    ${APP_NAME}
 
 
 # docker logs show
