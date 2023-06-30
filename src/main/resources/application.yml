@@ -1,5 +1,3 @@
-
-
 spring:
   datasource:
     url: jdbc:mariadb://58.238.182.90:10401/dogwhiz
@@ -29,5 +27,4 @@ logging:
   level:
     org.hibernate.sql: debug
     org.hibernate.type: trace
-server:
-  port: 10800
+

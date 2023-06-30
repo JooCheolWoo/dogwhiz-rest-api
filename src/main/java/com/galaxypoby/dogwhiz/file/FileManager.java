@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 @Component
 public class FileManager {
 
-    private final Path rootLocation = Paths.get("/home/galaxypoby/storage/dogwhiz-dev");
+    private final Path rootLocation = Paths.get("/home/galaxypoby/storage/dogwhiz-dev/");
 
     public void uploadFile(MultipartFile file) {
         try {
