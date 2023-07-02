@@ -28,7 +28,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Comment("회원번호")
-    @Column(name = "member_id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
     @Comment("이메일")

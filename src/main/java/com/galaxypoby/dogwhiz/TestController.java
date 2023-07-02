@@ -1,6 +1,5 @@
 package com.galaxypoby.dogwhiz;
 
-import com.galaxypoby.dogwhiz.file.FileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/test")
 public class TestController {
-
-    private final FileManager fileManager;
 
     @PostMapping
     public String fileupload(@RequestParam(name = "file")MultipartFile file) {

@@ -20,7 +20,7 @@ public class MemberImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
+    @Column(name = "id")
     private Long id;
 
     @JsonIgnore
@@ -30,19 +30,19 @@ public class MemberImage {
 
     @Comment("파일이름")
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
-    private String fileName;
+    private String name;
 
     @Comment("파일 URL")
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
-    private String fileUrl;
+    private String url;
 
     @Comment("파일 경로")
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
-    private String filePath;
+    private String path;
 
     @Comment("파일 크기")
     @Column(nullable = false, columnDefinition = "INT")
-    private Long fileSize;
+    private Long size;
 
     @Comment("생성일")
     @Column(nullable = true, columnDefinition = "DATETIME")

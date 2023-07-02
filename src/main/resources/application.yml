@@ -18,7 +18,7 @@ spring:
     init:
       schema-locations:
         classpath*:db/drop_table.sql,
-        classpath*:db/schema_new.sql
+        classpath*:db/schema.sql
 #        classpath*:db/alter_table.sql,
 #        classpath*:db/data.sql,
       mode: always
@@ -28,5 +28,5 @@ logging:
     org.hibernate.sql: debug
     org.hibernate.type: trace
 server:
-  port: 10800
+  port: 8080
 

@@ -19,7 +19,7 @@ public class MemberAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Comment("회원주소 번호")
-    @Column(name = "address_id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
     @JsonIgnore
@@ -37,6 +37,6 @@ public class MemberAddress {
 
     @Comment("상세주소")
     @Column(nullable = false, columnDefinition = "VARCHAR(255)")
-    private String addressDetail;
+    private String detail;
 
 }
