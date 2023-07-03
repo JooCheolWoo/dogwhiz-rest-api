@@ -11,12 +11,15 @@ import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BannerService {
@@ -27,6 +30,8 @@ public class BannerService {
 
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
         Banner banner = modelMapper.map(request, Banner.class);
+
+        log.info("제목 : " + banner.getTitle());
 
         if (file == null) {
             throw new CustomException(ErrorCode.FILE_NOT_REGISTERED);
