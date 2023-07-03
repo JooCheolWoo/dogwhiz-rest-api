@@ -29,7 +29,7 @@ logging:
     org.hibernate.type: trace
 
 path:
-  rootURL: https://dev.webserver.hellodogwhiz.com/
+  rootURL: https://dev.webserver.hellodogwhiz.com
 
 server:
   port: 10800
