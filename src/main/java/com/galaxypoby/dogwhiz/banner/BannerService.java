@@ -15,19 +15,25 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BannerService {
 
     private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
     private final FileUpDown fileUpDown;
 
+    @Transactional
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
         Banner banner = modelMapper.map(request, Banner.class);
 
@@ -56,6 +62,16 @@ public class BannerService {
         bannerRepository.save(banner);
 
         ResponseBannerDto response = modelMapper.map(banner, ResponseBannerDto.class);
+
+        return new CustomResponse(ErrorCode.OK, response);
+    }
+
+    public CustomResponse findBannerListExposure() {
+        List<Banner> banners = bannerRepository.findAllByExposureIsTrue();
+
+        List<ResponseBannerDto> response = banners.stream()
+                .map(banner -> modelMapper.map(banner, ResponseBannerDto.class))
+                .collect(Collectors.toList());
 
         return new CustomResponse(ErrorCode.OK, response);
     }

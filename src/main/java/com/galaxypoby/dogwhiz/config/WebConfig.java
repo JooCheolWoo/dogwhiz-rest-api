@@ -7,7 +7,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+                .exposedHeaders("X-AUTH-TOKEN")
+                .allowCredentials(true)
+                .allowedOrigins("https://dev.front.hellodogwhiz.com")
                 .allowedMethods("*")
-                .allowedOrigins("https://dev.front.hellodogwhiz.com");
+                .maxAge(3000);
     }
 }
