@@ -40,9 +40,9 @@ INSERT INTO `permission` (`id`, `name`) VALUES
                                             (5, '권한5');
 
 INSERT INTO `banner` (`id`, `title`, `url`, `exposure`, `created_at`, `updated_at`, `deleted_at`) VALUES
-                      (1, '배너1', 'www.naver.com', 1, '2023-07-03 07:44:23', '2023-07-03 07:44:23', NULL),
-                      (2, '배너2', 'www.naver.com', 1, '2023-07-03 07:44:32', '2023-07-03 07:44:32', NULL),
-                      (3, '배너3', 'www.naver.com', 1, '2023-07-03 07:44:40', '2023-07-03 07:44:40', NULL);
+                      (1, '배너1', 'https://www.naver.com', 1, '2023-07-03 07:44:23', '2023-07-03 07:44:23', NULL),
+                      (2, '배너2', 'https://www.naver.com', 1, '2023-07-03 07:44:32', '2023-07-03 07:44:32', NULL),
+                      (3, '배너3', 'https://www.naver.com', 1, '2023-07-03 07:44:40', '2023-07-03 07:44:40', NULL);
 
 
 INSERT INTO `banner_file` (`id`, `banner_id`, `name`, `url`, `path`, `size`, `created_at`, `updated_at`, `deleted_at`) VALUES
