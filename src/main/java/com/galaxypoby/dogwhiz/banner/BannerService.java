@@ -43,6 +43,7 @@ public class BannerService {
         Map<String ,String> path = FileUpDown.fileUpload("profile", file);
 
         BannerFile bannerFile = BannerFile.builder()
+                .banner(banner)
                 .name(file.getOriginalFilename())
                 .size(file.getSize())
                 .url(path.get("url"))
