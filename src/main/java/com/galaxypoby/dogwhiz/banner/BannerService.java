@@ -26,6 +26,7 @@ public class BannerService {
 
     private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
+    private final FileUpDown fileUpDown;
 
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
         Banner banner = modelMapper.map(request, Banner.class);
@@ -40,7 +41,7 @@ public class BannerService {
             throw new CustomException(ErrorCode.FILE_NOT_IMAGE);
         }
 
-        Map<String ,String> path = FileUpDown.fileUpload("profile", file);
+        Map<String ,String> path = fileUpDown.fileUpload("profile", file);
 
         BannerFile bannerFile = BannerFile.builder()
                 .banner(banner)

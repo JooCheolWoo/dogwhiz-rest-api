@@ -15,9 +15,9 @@ import java.util.UUID;
 public class FileUpDown {
 
     @Value("${path.rootURL}")
-    private static String rootURL;
+    private String rootURL;
 
-    public static Map<String, String> fileUpload(String folder, MultipartFile file) {
+    public Map<String, String> fileUpload(String folder, MultipartFile file) {
         String rootFolder = "/home";
 
         String originalFilename = file.getOriginalFilename();
