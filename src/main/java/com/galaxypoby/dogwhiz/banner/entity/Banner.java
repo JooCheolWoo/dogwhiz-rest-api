@@ -48,4 +48,8 @@ public class Banner {
     @JsonIgnore
     @OneToOne(mappedBy = "banner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private BannerFile bannerFile;
+
+    public void updateFile(BannerFile bannerFile) {
+        this.bannerFile = bannerFile;
+    }
 }

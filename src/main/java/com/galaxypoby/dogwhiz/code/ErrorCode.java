@@ -19,7 +19,13 @@ public enum ErrorCode {
     /**
      * 권한설정 (200)
      */
-    MEMBER_FAIL_AUTHENTICATION(200, "권한이 없습니다.");
+    MEMBER_FAIL_AUTHENTICATION(200, "권한이 없습니다."),
+
+    /**
+     * 공통(500)
+     */
+    FILE_NOT_REGISTERED(500, "파일이 등록되지 않았습니다."),
+    FILE_NOT_IMAGE(501, "이미지 파일만 등록이 가능합니다.");
 
     @Getter
     private int status;

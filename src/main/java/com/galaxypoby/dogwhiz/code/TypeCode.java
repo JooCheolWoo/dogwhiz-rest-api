@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum AuthCode {
+public enum TypeCode {
 
     /**
      * 관리자
@@ -32,8 +32,8 @@ public enum AuthCode {
     @Getter
     private String value;
 
-    public static AuthCode codeToEnum(String code) {
-        for (AuthCode value : values()) {
+    public static TypeCode codeToEnum(String code) {
+        for (TypeCode value : values()) {
             if (value.code.equals(code)) {
                 return value;
             }

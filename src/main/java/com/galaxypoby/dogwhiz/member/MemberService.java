@@ -1,12 +1,16 @@
 package com.galaxypoby.dogwhiz.member;
 
 import com.galaxypoby.dogwhiz.code.ErrorCode;
+import com.galaxypoby.dogwhiz.code.StatusCode;
+import com.galaxypoby.dogwhiz.code.TypeCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
+import com.galaxypoby.dogwhiz.member.entity.Role;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
+import com.galaxypoby.dogwhiz.member.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,6 +30,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public CustomResponse addMember(RequestMemberDto.SingUpDto request) throws CustomException {
@@ -46,8 +51,11 @@ public class MemberService {
         }
 
         Member member = modelMapper.map(request, Member.class);
-        member.setUpUser();
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
+
+        Role role = roleRepository.findByTypeCodeAndStatusCode(TypeCode.USER_NORMAL, StatusCode.PENDING);
+
+        member.updateRole(role);
 
         memberRepository.save(member);
 

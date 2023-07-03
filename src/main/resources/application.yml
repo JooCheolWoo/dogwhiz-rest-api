@@ -18,15 +18,21 @@ spring:
     init:
       schema-locations:
         classpath*:db/drop_table.sql,
-        classpath*:db/schema.sql
+        classpath*:db/schema.sql,
+        classpath*:db/data.sql
 #        classpath*:db/alter_table.sql,
-#        classpath*:db/data.sql,
       mode: always
 
 logging:
   level:
     org.hibernate.sql: debug
     org.hibernate.type: trace
+
+path:
+  rootURL: https://dev.webserver.hellodogwhiz.com/
+
 server:
   port: 8080
+
+
 

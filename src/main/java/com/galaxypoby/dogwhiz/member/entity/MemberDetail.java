@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class MemberDetail {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "member_id")
     private Long id;
 
     @JsonIgnore

@@ -1,7 +1,6 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galaxypoby.dogwhiz.code.AuthCode;
 import com.galaxypoby.dogwhiz.code.StatusCode;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.util.IpAnalyzer;
@@ -15,7 +14,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,14 +43,6 @@ public class Member {
     @Comment("비밀번호")
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String password;
-
-    @Comment("권한구분코드")
-    @Column(nullable = false, columnDefinition = "VARCHAR(10)")
-    private String authCd;
-
-    @Comment("상태구분코드")
-    @Column(nullable = false, columnDefinition = "VARCHAR(10)")
-    private String statusCd;
 
     @Comment("로그인 ip")
     @Column(nullable = true, columnDefinition = "VARCHAR(45)")
@@ -84,6 +77,14 @@ public class Member {
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "members_roles",
+            joinColumns = @JoinColumn(name = "member_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
+
     @JsonIgnore
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail memberDetail;
@@ -93,12 +94,21 @@ public class Member {
     private List<MemberAddress> memberAddresses;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MemberImage> memberImages;
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private MemberImage memberImage;
 
-    public void setUpUser() {
-        this.authCd = AuthCode.USER_NORMAL.getCode();
-        this.statusCd = StatusCode.USER_WAIT.getCode();
+
+    public void updateRole(Role role) {
+        if (this.roles == null) {
+            roles = new HashSet<>();
+        } else if (role.getTypeCode().getCode().startsWith("DAC00")) {
+            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC00"));
+        } else if (role.getTypeCode().getCode().startsWith("DAC01")) {
+            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC01"));
+        } else if (role.getTypeCode().getCode().startsWith("DAC10")) {
+            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC10"));
+        }
+        roles.add(role);
     }
 
     public void setEncodedPwd(String encodedPwd) {
@@ -113,10 +123,13 @@ public class Member {
 
     public void editInfo(RequestMemberDto.EditDto request) {
 
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void leave() {
-        this.statusCd = StatusCode.USER_LEAVE.getCode();
+        for (Role role : this.roles) {
+            role.setStatusCode(StatusCode.DEACTIVATED);
+        }
         this.deletedAt = LocalDateTime.now();
     }
 }
