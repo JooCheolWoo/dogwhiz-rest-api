@@ -20,7 +20,7 @@ public class BannerFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "banner_file_id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
     @JsonIgnore
@@ -30,16 +30,16 @@ public class BannerFile {
     private Banner banner;
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
-    private String fileName;
+    private String name;
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
-    private String fileUrl;
+    private String url;
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
-    private String filePath;
+    private String path;
 
     @Column(nullable = true, columnDefinition = "BIGINT")
-    private Long fileSize;
+    private Long size;
 
     @Column(nullable = false, columnDefinition = "DATETIME")
     @CreatedDate

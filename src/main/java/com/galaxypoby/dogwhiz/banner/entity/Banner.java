@@ -22,7 +22,7 @@ public class Banner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "banner_id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(50)")

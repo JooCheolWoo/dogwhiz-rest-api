@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 public class ResponseBannerDto {
     private Long id;
-    private String bannerTitle;
-    private String bannerUrl;
+    private String title;
+    private String url;
     private boolean exposure;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
