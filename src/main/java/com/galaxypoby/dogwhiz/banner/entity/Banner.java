@@ -26,10 +26,10 @@ public class Banner {
     private Long id;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(50)")
-    private String bannerTitle;
+    private String title;
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
-    private String bannerUrl;
+    private String url;
 
     @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT=0")
     private boolean exposure;
