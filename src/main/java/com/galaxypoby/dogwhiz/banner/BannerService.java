@@ -25,7 +25,6 @@ import java.util.Map;
 public class BannerService {
 
     private final BannerRepository bannerRepository;
-    private final BannerFileRepository bannerFileRepository;
     private final ModelMapper modelMapper;
 
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
