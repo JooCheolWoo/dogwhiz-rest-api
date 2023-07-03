@@ -29,7 +29,7 @@ public class BannerService {
 
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
         Banner banner = modelMapper.map(request, Banner.class);
-        
+
         log.info("제목 : " + banner.getTitle());
 
         if (file == null) {

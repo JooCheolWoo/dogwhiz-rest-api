@@ -1,9 +1,11 @@
 package com.galaxypoby.dogwhiz.banner.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ResponseBannerDto {
     private Long id;
     private String title;
