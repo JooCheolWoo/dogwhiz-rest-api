@@ -128,7 +128,7 @@ public class Member {
 
     public void leave() {
         for (Role role : this.roles) {
-            role.setStatusCode(StatusCode.DEACTIVATED);
+
         }
         this.deletedAt = LocalDateTime.now();
     }
