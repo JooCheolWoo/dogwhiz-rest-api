@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
