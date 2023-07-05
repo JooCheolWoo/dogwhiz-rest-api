@@ -111,6 +111,10 @@ public class Member {
         roles.add(role);
     }
 
+    public void updateMemberImage(MemberImage memberImage) {
+        this.memberImage = memberImage;
+    }
+
     public void setEncodedPwd(String encodedPwd) {
         this.password = encodedPwd;
         this.updatePwdDate = LocalDateTime.now();

@@ -1,16 +1,16 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.galaxypoby.dogwhiz.banner.entity.BannerFile;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,4 +58,12 @@ public class MemberImage {
     @Comment("삭제일")
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
+
+    public MemberImage(Member member, MultipartFile file, Map<String, String> path) {
+        this.member = member;
+        this.name = file.getOriginalFilename();
+        this.size = file.getSize();
+        this.url = path.get("url");
+        this.path = path.get("path");
+    }
 }

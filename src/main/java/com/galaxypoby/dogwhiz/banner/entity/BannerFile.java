@@ -1,16 +1,18 @@
 package com.galaxypoby.dogwhiz.banner.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.galaxypoby.dogwhiz.member.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
@@ -50,4 +52,12 @@ public class BannerFile {
 
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
+
+    public BannerFile(Banner banner, MultipartFile file, Map<String, String> path) {
+        this.banner = banner;
+        this.name = file.getOriginalFilename();
+        this.size = file.getSize();
+        this.url = path.get("url");
+        this.path = path.get("path");
+    }
 }

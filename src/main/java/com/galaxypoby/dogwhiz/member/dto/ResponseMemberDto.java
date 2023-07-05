@@ -36,6 +36,7 @@ public class ResponseMemberDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime deletedAt;
 
+        private MemberImage memberImage;
     }
 
     @Getter

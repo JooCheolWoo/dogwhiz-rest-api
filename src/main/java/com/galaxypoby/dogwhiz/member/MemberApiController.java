@@ -5,6 +5,7 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,8 +15,9 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @PostMapping
-    public CustomResponse memberAdd(@RequestBody RequestMemberDto.SingUpDto request) throws CustomException {
-        return memberService.addMember(request);
+    public CustomResponse memberAdd(@RequestPart(name = "request") RequestMemberDto.SingUpDto request,
+                                    @RequestPart(name = "file", required = false) MultipartFile file) throws CustomException {
+        return memberService.addMember(request, file);
     }
 
     @GetMapping

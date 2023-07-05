@@ -5,9 +5,11 @@ import com.galaxypoby.dogwhiz.code.StatusCode;
 import com.galaxypoby.dogwhiz.code.TypeCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
+import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
+import com.galaxypoby.dogwhiz.member.entity.MemberImage;
 import com.galaxypoby.dogwhiz.member.entity.Role;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
 import com.galaxypoby.dogwhiz.member.repository.RoleRepository;
@@ -18,9 +20,11 @@ import org.modelmapper.TypeToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -31,9 +35,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
+    private final FileUpDown fileUpDown;
 
     @Transactional
-    public CustomResponse addMember(RequestMemberDto.SingUpDto request) throws CustomException {
+    public CustomResponse addMember(RequestMemberDto.SingUpDto request, MultipartFile file) throws CustomException {
 
         // 이메일 중복검사 (이미 존재하면 false)
         if (!(canUseEmail(request.getEmail()).getStatus() == 0)) {
@@ -56,6 +61,12 @@ public class MemberService {
         Role role = roleRepository.findByTypeCodeAndStatusCode(TypeCode.USER_NORMAL, StatusCode.PENDING);
 
         member.updateRole(role);
+
+        if (file != null) {
+            Map<String ,String> path = fileUpDown.fileUpload("profile", file);
+            MemberImage memberImage = new MemberImage(member, file, path);
+            member.updateMemberImage(memberImage);
+        }
 
         memberRepository.save(member);
 
