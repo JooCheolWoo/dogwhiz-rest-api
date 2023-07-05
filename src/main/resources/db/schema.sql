@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS banner (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS banner_file (
-    id BIGINT(20) UNSIGNED not null auto_increment comment '파일 번호',
     banner_id BIGINT(20) UNSIGNED comment '배너 번호',
     name VARCHAR(255) comment '파일명',
     url VARCHAR(500) comment '파일 URL',
@@ -100,6 +99,6 @@ CREATE TABLE IF NOT EXISTS banner_file (
     created_at DATETIME not null comment '생성 날짜',
     updated_at DATETIME comment '수정 날짜',
     deleted_at DATETIME comment '삭제 날짜',
-    primary key (id),
+    primary key (banner_id),
     FOREIGN KEY (`banner_id`) REFERENCES `banner` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

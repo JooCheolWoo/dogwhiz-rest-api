@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 public class BannerFile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "banner_id")
     private Long id;
 
     @JsonIgnore

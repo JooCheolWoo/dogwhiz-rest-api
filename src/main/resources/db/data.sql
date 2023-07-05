@@ -39,16 +39,7 @@ INSERT INTO `permission` (`id`, `name`) VALUES
                                             (4, '권한4'),
                                             (5, '권한5');
 
-INSERT INTO `banner` (`id`, `title`, `url`, `exposure`, `created_at`, `updated_at`, `deleted_at`) VALUES
-                      (1, '배너1', 'https://www.naver.com', 1, '2023-07-03 07:44:23', '2023-07-03 07:44:23', NULL),
-                      (2, '배너2', 'https://www.naver.com', 1, '2023-07-03 07:44:32', '2023-07-03 07:44:32', NULL),
-                      (3, '배너3', 'https://www.naver.com', 1, '2023-07-03 07:44:40', '2023-07-03 07:44:40', NULL);
 
-
-INSERT INTO `banner_file` (`id`, `banner_id`, `name`, `url`, `path`, `size`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, '1.jpg', 'https://dev.webserver.hellodogwhiz.com/profile/72ed0b42-f2b0-4bdf-8e73-c31fe6e77f33.jpg', '/home/profile/72ed0b42-f2b0-4bdf-8e73-c31fe6e77f33.jpg', 14910, '2023-07-03 07:44:23', '2023-07-03 07:44:23', NULL),
-(2, 2, '2.png', 'https://dev.webserver.hellodogwhiz.com/profile/d6d9e6dc-818c-4459-aacf-96f02cbc828d.png', '/home/profile/d6d9e6dc-818c-4459-aacf-96f02cbc828d.png', 634100, '2023-07-03 07:44:32', '2023-07-03 07:44:32', NULL),
-(3, 3, '3.jpg', 'https://dev.webserver.hellodogwhiz.com/profile/fcdb8903-5221-4754-9841-9125c2a9adec.jpg', '/home/profile/fcdb8903-5221-4754-9841-9125c2a9adec.jpg', 112456, '2023-07-03 07:44:40', '2023-07-03 07:44:40', NULL);
 
 
 
