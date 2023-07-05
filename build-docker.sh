@@ -33,6 +33,7 @@ docker run -d \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
+    -e TZ=Asia/Seoul \
     -v /etc/localtime:/etc/localtime:ro \
     --network nginx-proxy \
     --restart unless-stopped \
