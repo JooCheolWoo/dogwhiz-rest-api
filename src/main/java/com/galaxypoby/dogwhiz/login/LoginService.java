@@ -27,7 +27,7 @@ public class LoginService {
             throw new CustomException(ErrorCode.MEMBER_NOT_EXIST);
         }
 
-        if (passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
         }
 
