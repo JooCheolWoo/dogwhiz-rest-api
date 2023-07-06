@@ -11,7 +11,7 @@ import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice("com.galaxypoby.dogwhiz")
 public class ExceptionResponseHandler {
 
     @ResponseStatus(HttpStatus.OK)
