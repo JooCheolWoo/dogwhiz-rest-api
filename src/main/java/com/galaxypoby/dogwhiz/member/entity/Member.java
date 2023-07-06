@@ -139,22 +139,4 @@ public class Member {
         }
         this.deletedAt = LocalDateTime.now();
     }
-
-    public List<String> getRoles() {
-        List<String> roles = new ArrayList<>();
-        this.roles.stream()
-                .map(role -> role.getStatusCode().equals(StatusCode.APPROVED)
-                ? roles.add("ROLE_" + role.getTypeCode().getCode()) : null);
-
-        return roles;
-    }
-
-    public List<String> getPermissions() {
-        List<String> permissions = new ArrayList<>();
-        this.roles.stream()
-                .map(role -> role.getPermissions().stream()
-                        .map(permission -> permissions.add(permission.getName())));
-
-        return permissions;
-    }
 }

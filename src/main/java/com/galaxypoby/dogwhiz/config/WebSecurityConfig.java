@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
-                .antMatchers(HttpMethod.POST, "/test").hasRole(TypeCode.ADMIN_MASTER.getCode())
+                .antMatchers(HttpMethod.POST, "/test").hasRole(TypeCode.ADMIN_MASTER.name())
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
