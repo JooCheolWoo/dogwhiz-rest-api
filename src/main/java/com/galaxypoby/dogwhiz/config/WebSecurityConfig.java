@@ -25,6 +25,7 @@ public class WebSecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtRequestFilter jwtRequestFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,8 +50,10 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
                 .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasAnyRole(admins)
+                .antMatchers(HttpMethod.GET, "/test").hasAnyRole(admins)
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler)
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()

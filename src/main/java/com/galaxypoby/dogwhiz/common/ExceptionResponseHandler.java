@@ -27,11 +27,4 @@ public class ExceptionResponseHandler {
         log.error(e.getLocalizedMessage());
         return new CustomResponse<>(e.getErrorCode(), null, e.getMessage());
     }
-
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler({AccessDeniedException.class})
-    public CustomResponse AccessDeniedException(AccessDeniedException e) {
-        log.error(e.getLocalizedMessage());
-        return new CustomResponse<>(ErrorCode.MEMBER_FAIL_AUTHENTICATION);
-    }
 }
