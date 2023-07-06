@@ -6,5 +6,5 @@ import com.galaxypoby.dogwhiz.member.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByTypeCodeAndStatusCode(RoleCode roleCode, StatusCode statusCode);
+    Role findByRoleCodeAndStatusCode(RoleCode roleCode, StatusCode statusCode);
 }

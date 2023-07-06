@@ -59,7 +59,7 @@ public class MemberService {
         Member member = modelMapper.map(request, Member.class);
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
-        Role role = roleRepository.findByTypeCodeAndStatusCode(RoleCode.USER_NORMAL, StatusCode.PENDING);
+        Role role = roleRepository.findByRoleCodeAndStatusCode(RoleCode.USER_NORMAL, StatusCode.PENDING);
 
         member.updateRole(role);
 
