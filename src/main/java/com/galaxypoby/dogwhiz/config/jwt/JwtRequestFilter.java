@@ -63,8 +63,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     }
 
                 }
-            } else {
-                throw new AccessDeniedException("Unauthorized");
             }
         } catch (IllegalArgumentException e) {
             log.warn("Unable to get JWT Token");
