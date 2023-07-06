@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS `role`;
 DROP TABLE IF EXISTS `banner_file`;
 DROP TABLE IF EXISTS `banner`;
 
+DROP TABLE IF EXISTS `refresh_token`;
 DROP TABLE IF EXISTS `member`;
+
 
 
