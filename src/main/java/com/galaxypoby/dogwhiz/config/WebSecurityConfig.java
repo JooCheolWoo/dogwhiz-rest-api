@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private final UserDetailServiceImpl userDetailService;
     private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
@@ -48,7 +47,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/members/login, /api/v1/members/").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
                 .antMatchers(HttpMethod.POST, "/test").hasRole(TypeCode.ADMIN_MASTER.getCode())
                 .anyRequest().authenticated().and()
