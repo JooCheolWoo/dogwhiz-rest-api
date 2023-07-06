@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,10 +21,16 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     public CustomResponse addRefreshToken(Long memberId, String token) {
-        RefreshToken refreshToken = RefreshToken.builder()
-                .memberId(memberId)
-                .refreshToken(token)
-                .build();
+        RefreshToken refreshToken = refreshTokenRepository.findByMemberId(memberId);
+
+        if (refreshToken == null) {
+            refreshToken = RefreshToken.builder()
+                    .memberId(memberId)
+                    .refreshToken(token)
+                    .build();
+        } else {
+            refreshToken.updateToken(token);
+        }
 
         refreshTokenRepository.save(refreshToken);
 
