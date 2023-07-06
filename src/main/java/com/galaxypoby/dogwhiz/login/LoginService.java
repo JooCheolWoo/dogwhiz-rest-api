@@ -20,14 +20,14 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     
-    public CustomResponse loginMember(RequestLoginDto requset) throws CustomException {
-        Member member = memberRepository.findByEmail(requset.getEmail());
+    public CustomResponse loginMember(RequestLoginDto request) throws CustomException {
+        Member member = memberRepository.findByEmail(request.getEmail());
 
         if (member == null) {
             throw new CustomException(ErrorCode.MEMBER_NOT_EXIST);
         }
 
-        if (passwordEncoder.matches(requset.getPassword(), member.getPassword())) {
+        if (passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new CustomException(ErrorCode.MEMBER_PASSWORD_NOT_MATCH);
         }
 
