@@ -3,7 +3,6 @@ package com.galaxypoby.dogwhiz.config.jwt;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 @Slf4j
 @Component
@@ -63,13 +63,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     }
 
                 }
+            } else {
+                throw new AccessDeniedException("Unauthorized");
             }
         } catch (IllegalArgumentException e) {
             log.warn("Unable to get JWT Token");
         } catch (ExpiredJwtException e) {
             log.warn("JWT Token has expired");
-        } catch (AccessDeniedException e) {
-            log.warn("권한이 없숑");
         } catch (Exception e) {
             log.warn("JWT Token not valid");
         }
