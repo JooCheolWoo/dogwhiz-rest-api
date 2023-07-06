@@ -28,13 +28,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(ErrorCode.MEMBER_NOT_EXIST.getMessage()));
 
-        List<RoleCode> roles = member.getRoles().stream()
-                .map(role -> role.getStatusCode() == StatusCode.APPROVED ? role.getRoleCode() : null)
+        List<String> roles = member.getRoles().stream()
+                .map(role -> role.getStatusCode() == StatusCode.APPROVED ? role.getRoleCode().name() : null)
                 .collect(Collectors.toList());
 
         List<GrantedAuthority> authorities;
         authorities = roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
 
         return new User(member.getEmail(), member.getPassword(), authorities);
