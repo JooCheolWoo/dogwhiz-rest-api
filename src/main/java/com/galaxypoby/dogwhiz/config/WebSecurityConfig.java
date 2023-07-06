@@ -39,6 +39,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        String admins[] = {RoleCode.ADMIN_MASTER.name(), RoleCode.ADMIN_MANAGER.name(), RoleCode.ADMIN_NORMAL.name()};
+
         return httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
@@ -46,7 +48,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
-                .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasRole(RoleCode.ADMIN_MASTER.name())
+                .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasAnyRole(admins)
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
