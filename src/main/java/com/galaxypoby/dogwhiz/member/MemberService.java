@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -96,8 +97,10 @@ public class MemberService {
 
     public CustomResponse findMemberList() {
         List<Member> members = memberRepository.findAll();
-        Type listType = new TypeToken<List<ResponseMemberDto.MemberDto>>() {}.getType().getClass();
-        List<ResponseMemberDto.MemberDto> response = modelMapper.map(members, listType);
+
+        List<ResponseMemberDto.MemberDto> response = members.stream()
+                .map(member -> modelMapper.map(member, ResponseMemberDto.MemberDto.class))
+                .collect(Collectors.toList());
 
         return new CustomResponse(ErrorCode.OK, response);
     }
