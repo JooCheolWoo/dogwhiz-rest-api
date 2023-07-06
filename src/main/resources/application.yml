@@ -31,6 +31,11 @@ logging:
 path:
   rootURL: https://dev.webserver.hellodogwhiz.com
 
+jwt:
+  issuer: hellodogwhiz.com
+  secret_key: test1234!
+
+
 server:
   port: 10800
 

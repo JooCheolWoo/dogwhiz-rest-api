@@ -2,6 +2,7 @@ package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.galaxypoby.dogwhiz.code.StatusCode;
+import com.galaxypoby.dogwhiz.code.TypeCode;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.util.IpAnalyzer;
 import lombok.AccessLevel;
@@ -14,9 +15,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -135,5 +138,23 @@ public class Member {
 
         }
         this.deletedAt = LocalDateTime.now();
+    }
+
+    public List<String> getRoles() {
+        List<String> roles = new ArrayList<>();
+        this.roles.stream()
+                .map(role -> role.getStatusCode().equals(StatusCode.APPROVED)
+                ? roles.add("ROLE_" + role.getTypeCode().getCode()) : null);
+
+        return roles;
+    }
+
+    public List<String> getPermissions() {
+        List<String> permissions = new ArrayList<>();
+        this.roles.stream()
+                .map(role -> role.getPermissions().stream()
+                        .map(permission -> permissions.add(permission.getName())));
+
+        return permissions;
     }
 }

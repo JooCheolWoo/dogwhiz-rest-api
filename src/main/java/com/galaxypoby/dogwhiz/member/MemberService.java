@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -76,8 +77,8 @@ public class MemberService {
     }
 
     public CustomResponse canUseEmail(String email) {
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isEmpty()) {
             return new CustomResponse(ErrorCode.OK);
         } else {
             return new CustomResponse(ErrorCode.MEMBER_EMAIL_DUPLICATION);
@@ -85,8 +86,8 @@ public class MemberService {
     }
 
     public CustomResponse canUseNickname(String nickname) {
-        Member member = memberRepository.findByNickname(nickname);
-        if (member == null) {
+        Optional<Member> member = memberRepository.findByNickname(nickname);
+        if (member.isEmpty()) {
             return new CustomResponse(ErrorCode.OK);
         } else {
             return new CustomResponse(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
