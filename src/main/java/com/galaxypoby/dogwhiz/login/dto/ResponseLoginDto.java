@@ -30,7 +30,7 @@ public class ResponseLoginDto {
     private MemberImage memberImage;
     private String accessToken;
 
-    public void setAccessToken(String token) {
+    public void setToken(String token) {
         this.accessToken = token;
     }
 }

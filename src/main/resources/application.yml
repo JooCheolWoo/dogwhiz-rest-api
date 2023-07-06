@@ -23,6 +23,11 @@ spring:
 #        classpath*:db/alter_table.sql,
       mode: always
 
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+
 logging:
   level:
     org.hibernate.sql: debug

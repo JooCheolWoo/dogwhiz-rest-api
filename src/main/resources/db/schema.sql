@@ -88,3 +88,10 @@ CREATE TABLE IF NOT EXISTS banner_file (
     primary key (banner_id),
     FOREIGN KEY (`banner_id`) REFERENCES `banner` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS refresh_token (
+    id BIGINT(20) UNSIGNED AUTO_INCREMENT comment '토큰 번호',
+    member_id BIGINT(20) UNSIGNED NOT NULL UNIQUE comment '회원 번호',
+    refresh_token VARCHAR(255) NOT NULL comment '토큰',
+    primary key (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

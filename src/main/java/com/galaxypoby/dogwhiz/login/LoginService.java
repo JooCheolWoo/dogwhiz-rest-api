@@ -5,6 +5,8 @@ import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.config.jwt.TokenProvider;
 import com.galaxypoby.dogwhiz.config.jwt.UserDetailServiceImpl;
+import com.galaxypoby.dogwhiz.jwt.TokenService;
+import com.galaxypoby.dogwhiz.jwt.repository.RefreshTokenRepository;
 import com.galaxypoby.dogwhiz.login.dto.RequestLoginDto;
 import com.galaxypoby.dogwhiz.login.dto.ResponseLoginDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
@@ -24,6 +26,7 @@ public class LoginService {
     private final ModelMapper modelMapper;
     private final TokenProvider tokenProvider;
     private final UserDetailServiceImpl userDetailService;
+    private final TokenService tokenService;
     
     public CustomResponse loginMember(RequestLoginDto request) throws CustomException {
         Member member = memberRepository.findByEmail(request.getEmail())
@@ -40,9 +43,11 @@ public class LoginService {
         ResponseLoginDto response = modelMapper.map(member, ResponseLoginDto.class);
 
         UserDetails userDetails = userDetailService.loadUserByUsername(member.getEmail());
-        String token = tokenProvider.generateAccessToken(userDetails);
+        String accessToken = tokenProvider.generateAccessToken(userDetails);
+        String refreshToken = tokenProvider.generateRefreshToken(userDetails);
 
-        response.setAccessToken(token);
+        response.setToken(accessToken);
+        tokenService.addRefreshToken(member.getId(), refreshToken);
 
         return new CustomResponse(ErrorCode.OK, response);
     }
