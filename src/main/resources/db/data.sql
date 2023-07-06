@@ -1,4 +1,4 @@
-INSERT INTO `role` (`id`, `type_code`, `status_code`) VALUES
+INSERT INTO `role` (`id`, `role_code`, `status_code`) VALUES
                                                           (1, 'ADMIN_MASTER', 'APPROVED'),
                                                           (2, 'ADMIN_MASTER', 'PENDING'),
                                                           (3, 'ADMIN_MASTER', 'SUSPENDED'),
