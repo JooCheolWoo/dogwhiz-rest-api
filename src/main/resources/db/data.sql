@@ -32,13 +32,6 @@ INSERT INTO `role` (`id`, `type_code`, `status_code`) VALUES
                                                           (31, 'USER_NORMAL', 'SUSPENDED'),
                                                           (32, 'USER_NORMAL', 'DEACTIVATED');
 
-INSERT INTO `permission` (`id`, `name`) VALUES
-                                            (1, '권한1'),
-                                            (2, '권한2'),
-                                            (3, '권한3'),
-                                            (4, '권한4'),
-                                            (5, '권한5');
-
 
 INSERT INTO `banner` (`id`, `title`, `url`, `exposure`, `created_at`, `updated_at`, `deleted_at`) VALUES
                                                                                                       (1, '도그위즈 오픈', '', 1, '2023-07-05 17:02:01', '2023-07-05 17:02:01', NULL),

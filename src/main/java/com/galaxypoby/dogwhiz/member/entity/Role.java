@@ -2,13 +2,11 @@ package com.galaxypoby.dogwhiz.member.entity;
 
 
 import com.galaxypoby.dogwhiz.code.StatusCode;
-import com.galaxypoby.dogwhiz.code.TypeCode;
+import com.galaxypoby.dogwhiz.code.RoleCode;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Data
@@ -23,16 +21,8 @@ public class Role {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private TypeCode typeCode;
+    private RoleCode roleCode;
 
     @Enumerated(EnumType.STRING)
     private StatusCode statusCode;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "roles_permissions",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
-    )
-    private Set<Permission> permissions = new HashSet<>();
 }

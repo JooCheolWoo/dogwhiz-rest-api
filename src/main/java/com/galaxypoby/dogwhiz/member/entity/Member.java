@@ -1,8 +1,6 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galaxypoby.dogwhiz.code.StatusCode;
-import com.galaxypoby.dogwhiz.code.TypeCode;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.util.IpAnalyzer;
 import lombok.AccessLevel;
@@ -15,11 +13,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -104,12 +100,12 @@ public class Member {
     public void updateRole(Role role) {
         if (this.roles == null) {
             roles = new HashSet<>();
-        } else if (role.getTypeCode().getCode().startsWith("DAC00")) {
-            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC00"));
-        } else if (role.getTypeCode().getCode().startsWith("DAC01")) {
-            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC01"));
-        } else if (role.getTypeCode().getCode().startsWith("DAC10")) {
-            roles.removeIf(rm -> rm.getTypeCode().getCode().startsWith("DAC10"));
+        } else if (role.getRoleCode().name().startsWith("ADMIN")) {
+            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("ADMIN"));
+        } else if (role.getRoleCode().name().startsWith("SELLER")) {
+            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("SELLER"));
+        } else if (role.getRoleCode().name().startsWith("USER")) {
+            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("USER"));
         }
         roles.add(role);
     }

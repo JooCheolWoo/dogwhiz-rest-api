@@ -1,15 +1,12 @@
 package com.galaxypoby.dogwhiz.config;
 
-import com.galaxypoby.dogwhiz.code.TypeCode;
+import com.galaxypoby.dogwhiz.code.RoleCode;
 import com.galaxypoby.dogwhiz.config.jwt.JwtRequestFilter;
-import com.galaxypoby.dogwhiz.config.jwt.UserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,7 +46,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
-                .antMatchers(HttpMethod.POST, "/test").hasRole(TypeCode.ADMIN_MASTER.name())
+                .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasRole(RoleCode.ADMIN_MASTER.name())
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)

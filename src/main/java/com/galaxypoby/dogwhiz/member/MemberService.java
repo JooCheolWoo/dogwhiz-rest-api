@@ -2,7 +2,7 @@ package com.galaxypoby.dogwhiz.member;
 
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.code.StatusCode;
-import com.galaxypoby.dogwhiz.code.TypeCode;
+import com.galaxypoby.dogwhiz.code.RoleCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
@@ -59,7 +59,7 @@ public class MemberService {
         Member member = modelMapper.map(request, Member.class);
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
-        Role role = roleRepository.findByTypeCodeAndStatusCode(TypeCode.USER_NORMAL, StatusCode.PENDING);
+        Role role = roleRepository.findByTypeCodeAndStatusCode(RoleCode.USER_NORMAL, StatusCode.PENDING);
 
         member.updateRole(role);
 

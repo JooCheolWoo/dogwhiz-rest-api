@@ -1,8 +1,6 @@
 package com.galaxypoby.dogwhiz.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.galaxypoby.dogwhiz.code.TypeCode;
-import com.galaxypoby.dogwhiz.code.StatusCode;
 import com.galaxypoby.dogwhiz.member.entity.MemberAddress;
 import com.galaxypoby.dogwhiz.member.entity.MemberDetail;
 import com.galaxypoby.dogwhiz.member.entity.MemberImage;

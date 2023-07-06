@@ -16,12 +16,6 @@ CREATE TABLE IF NOT EXISTS `member` (
     UNIQUE (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `permission` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(50) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `role` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type_code` ENUM('ADMIN_MASTER', 'ADMIN_MANAGER', 'ADMIN_NORMAL', 'SELLER_CORPORATE', 'SELLER_INDIVIDUAL', 'USER_SPECIAL', 'USER_CERTIFIED', 'USER_NORMAL') NOT NULL,
@@ -35,14 +29,6 @@ CREATE TABLE `members_roles` (
     PRIMARY KEY (`member_id`, `role_id`),
     FOREIGN KEY (`member_id`) REFERENCES `member`(`id`),
     FOREIGN KEY (`role_id`) REFERENCES `role`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `roles_permissions` (
-    `role_id` BIGINT UNSIGNED NOT NULL,
-    `permission_id` BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`role_id`, `permission_id`),
-    FOREIGN KEY (`role_id`) REFERENCES `role`(`id`),
-    FOREIGN KEY (`permission_id`) REFERENCES `permission`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `member_address` (

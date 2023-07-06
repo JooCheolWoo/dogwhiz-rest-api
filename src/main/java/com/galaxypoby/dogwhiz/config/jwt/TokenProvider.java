@@ -2,6 +2,7 @@ package com.galaxypoby.dogwhiz.config.jwt;
 
 import com.galaxypoby.dogwhiz.member.entity.Member;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +61,10 @@ public class TokenProvider {
         Map<String, Object> claims = new HashMap<>();
 
         String token = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuer(jwtProperties.getIssuer())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setSubject(userDetails.getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
