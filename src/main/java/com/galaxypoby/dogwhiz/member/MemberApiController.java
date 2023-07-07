@@ -4,9 +4,11 @@ import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
@@ -17,6 +19,7 @@ public class MemberApiController {
     @PostMapping
     public CustomResponse memberAdd(@RequestPart(name = "request") RequestMemberDto.SingUpDto request,
                                     @RequestPart(name = "file", required = false) MultipartFile file) throws CustomException {
+        log.info("파일 있음 ? : " + file.isEmpty());
         return memberService.addMember(request, file);
     }
 
