@@ -19,7 +19,6 @@ public class MemberApiController {
     @PostMapping
     public CustomResponse memberAdd(@RequestPart(name = "request") RequestMemberDto.SingUpDto request,
                                     @RequestPart(name = "file", required = false) MultipartFile file) throws CustomException {
-        log.info("파일 있음 ? : " + file.isEmpty());
         return memberService.addMember(request, file);
     }
 
