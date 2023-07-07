@@ -27,6 +27,7 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 100MB
+      enabled: true
 
 logging:
   level:
