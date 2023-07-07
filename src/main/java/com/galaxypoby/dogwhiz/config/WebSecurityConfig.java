@@ -47,7 +47,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members/login", "/api/v1/members").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasAnyRole(admins)
                 .antMatchers(HttpMethod.GET, "/test").hasAnyRole(admins)
                 .anyRequest().authenticated()
