@@ -43,7 +43,6 @@ public class WebSecurityConfig {
         String admins[] = {RoleCode.ADMIN_MASTER.name(), RoleCode.ADMIN_MANAGER.name(), RoleCode.ADMIN_NORMAL.name()};
 
         return httpSecurity
-                .httpBasic().disable()
                 .csrf().disable()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
@@ -51,7 +50,10 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/v1/banners").permitAll()
                 .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasAnyRole(admins)
                 .antMatchers(HttpMethod.GET, "/test").hasAnyRole(admins)
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated()
+                .and()
+                .cors()
+                .and()
                 .exceptionHandling()
                 .accessDeniedHandler(customAccessDeniedHandler)
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
