@@ -40,4 +40,14 @@ public class MemberApiController {
     public CustomResponse memberRemove(@PathVariable(name = "memberId") Long memberId) throws CustomException {
         return memberService.removeMember(memberId);
     }
+
+    @GetMapping("/valid/email")
+    public CustomResponse emailValid(@RequestParam("email") String email) {
+        return memberService.canUseEmail(email);
+    }
+
+    @GetMapping("/valid/nickname")
+    public CustomResponse nicknameValid(@RequestParam("nickname") String nickname) {
+        return memberService.canUseNickname(nickname);
+    }
 }
