@@ -31,7 +31,7 @@ public class TokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    public static final long JWT_ACCESS_VALIDITY =  5 * 60 * 1000; // 5분
+    public static final long JWT_ACCESS_VALIDITY =  30 * 60 * 1000; // 30분
     public static final long JWT_REFRESH_VALIDITY = 24 * 60 * 60 * 14 * 1000; // 2주일
 
     private SecretKey secretKey;

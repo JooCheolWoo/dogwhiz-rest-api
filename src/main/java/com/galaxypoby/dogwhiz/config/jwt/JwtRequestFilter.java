@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @Slf4j
 @Component
@@ -25,51 +24,52 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final UserDetailServiceImpl userDetailService;
     private final TokenProvider tokenProvider;
 
+    private final static String HEADER_AUTHORIZATION = "Authorization";
+    private final static String TOKEN_PREFIX = "Bearer ";
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String servletPath = request.getServletPath();
+        String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
 
-        String username = null;
-        String jwtToken = null;
+        if (servletPath.equals("/api/v1/login") || servletPath.equals("/api/v1/refresh")) {
+            chain.doFilter(request, response);
+        } else if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            log.info("JwtRequestFilter : JWT Token 존재하지 않습니다.");
+        } else {
+            try {
+                // Access Token 가져오기
+                String accessToken = authorizationHeader.substring(TOKEN_PREFIX.length());
+                String username = null;
 
-        try {
-            // JWT Token is in the form "Bearer token". Remove Bearer word and get
-            // only the Token
-            if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-                //TODO 토큰 문자열이 Bearer null, Bearer undefined 등의 문자열로 왔을때에 대한 예외처리 필요함
-                jwtToken = requestTokenHeader.substring(7);
-                username = tokenProvider.getUsernameFromToken(jwtToken);
+                if (accessToken.isEmpty()) {
+                    log.info("JwtRequestFilter : JWT Token 잘못된 토큰입니다.");
+                } else {
+                    username = tokenProvider.getUsernameFromToken(accessToken);
 
+                    if (authorizationHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
 
-                // Once we get the token validate it.
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-                    UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
-
-                    // if token is valid configure Spring Security to manually set
-                    // authentication
-                    if (tokenProvider.validateToken(jwtToken, userDetails)) {
-                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                        usernamePasswordAuthenticationToken
-                                .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        // After setting the Authentication in the context, we specify
-                        // that the current user is authenticated. So it passes the
-                        // Spring Security Configurations successfully.
-                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                        if (tokenProvider.validateToken(accessToken, userDetails)) {
+                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                            usernamePasswordAuthenticationToken
+                                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                        }
                     }
-
                 }
+            } catch (IllegalArgumentException e) {
+                log.info("JwtRequestFilter : Token 확인이 불가능합니다.");
+            } catch (ExpiredJwtException e) {
+                log.info("JwtRequestFilter : Token 만료되었습니다.");
+            } catch (Exception e) {
+                log.info("JwtRequestFilter : 잘못된 Token 입니다.");
             }
-        } catch (IllegalArgumentException e) {
-            log.warn("Unable to get JWT Token");
-        } catch (ExpiredJwtException e) {
-            log.warn("JWT Token has expired");
-        } catch (Exception e) {
-            log.warn("JWT Token not valid");
+
         }
         chain.doFilter(request, response);
     }

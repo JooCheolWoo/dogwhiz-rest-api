@@ -15,10 +15,12 @@ public enum ErrorCode {
     MEMBER_EMAIL_DUPLICATION(1001, "중복된 이메일이 존재합니다."),
     MEMBER_NICKNAME_DUPLICATION(1002, "중복된 닉네임이 존재합니다."),
     MEMBER_PASSWORD_NOT_MATCH(1003, "비밀번호가 일치하지 않습니다."),
+    MEMBER_ABNORMAL_REFRESH(1004, "잘못된 재인증 요청입니다."),
 
     /**
      * 존재하는 상태코드 (400)
      */
+    TOKEN_NOT_EXIST(400, "JWT 토큰이 존재하지 않습니다."),
     MEMBER_FAIL_AUTHENTICATION(401, "권한 인증에 실패하였습니다."),
     MEMBER_DENY_ACCESS(403, "접근 권한이 없습니다."),
     API_NOT_FOUND(404, "해당 API를 찾을 수 없습니다."),

@@ -44,10 +44,9 @@ public class LoginService {
 
         UserDetails userDetails = userDetailService.loadUserByUsername(member.getEmail());
         String accessToken = tokenProvider.generateAccessToken(userDetails);
-        String refreshToken = tokenProvider.generateRefreshToken(userDetails);
 
         response.setToken(accessToken);
-        tokenService.addRefreshToken(member.getId(), refreshToken);
+        tokenService.addRefreshToken(member.getId(), userDetails);
 
         return new CustomResponse(ErrorCode.OK, response);
     }

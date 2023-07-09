@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1")
 public class LoginApiController {
 
     private final LoginService loginService;
