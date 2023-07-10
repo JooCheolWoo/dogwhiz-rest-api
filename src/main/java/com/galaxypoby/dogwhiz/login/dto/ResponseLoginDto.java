@@ -31,8 +31,6 @@ public class ResponseLoginDto {
     private LocalDateTime deletedAt;
 
     private MemberImage memberImage;
-    private MemberDetail memberDetail;
-    private List<MemberAddress> memberAddresses;
     private String accessToken;
 
     public void setToken(String token) {
