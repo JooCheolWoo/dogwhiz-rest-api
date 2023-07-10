@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -26,5 +27,12 @@ public class ExceptionResponseHandler {
     public CustomResponse SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
         log.error(e.getLocalizedMessage());
         return new CustomResponse<>(e.getErrorCode(), null, e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({MaxUploadSizeExceededException.class})
+    public CustomResponse MaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        log.error(e.getLocalizedMessage());
+        return new CustomResponse<>(ErrorCode.FILE_OVER_SIZE);
     }
 }

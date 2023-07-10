@@ -30,7 +30,8 @@ public enum ErrorCode {
      * 파일(2000)
      */
     FILE_NOT_REGISTERED(2000, "파일이 등록되지 않았습니다."),
-    FILE_NOT_IMAGE(2001, "이미지 파일만 등록이 가능합니다.");
+    FILE_NOT_IMAGE(2001, "이미지 파일만 등록이 가능합니다."),
+    FILE_OVER_SIZE(2002, "업로드 허용 용량을 초과합니다.");
 
     @Getter
     private int status;
