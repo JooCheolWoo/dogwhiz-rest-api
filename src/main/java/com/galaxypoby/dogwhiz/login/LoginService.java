@@ -42,6 +42,8 @@ public class LoginService {
 
         ResponseLoginDto response = modelMapper.map(member, ResponseLoginDto.class);
 
+        response.setMemberImageUrl(member.getMemberImage().getUrl());
+
         UserDetails userDetails = userDetailService.loadUserByUsername(member.getEmail());
         String accessToken = tokenProvider.generateAccessToken(userDetails);
 
