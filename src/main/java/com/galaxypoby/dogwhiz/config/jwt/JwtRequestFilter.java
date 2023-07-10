@@ -34,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         String accessToken = null;
-        String username= null;
+        String username = null;
 
         try {
 
@@ -43,22 +43,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = tokenProvider.getUsernameFromToken(accessToken);
             }
 
-            if (accessToken.isEmpty()) {
-                log.info("JwtRequestFilter : JWT Token 값이 존재하지 않습니다.");
-            } else {
-                
-                if (authorizationHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
 
-                    if (tokenProvider.validateToken(accessToken, userDetails)) {
-                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                        usernamePasswordAuthenticationToken
-                                .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                    }
+                if (tokenProvider.validateToken(accessToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken
+                            .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             }
+
         } catch (IllegalArgumentException e) {
             log.info("JwtRequestFilter : Token 확인이 불가능합니다.");
         } catch (ExpiredJwtException e) {
@@ -66,8 +62,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             log.info("JwtRequestFilter : 잘못된 Token 입니다.");
         }
-
-
         chain.doFilter(request, response);
     }
 }
