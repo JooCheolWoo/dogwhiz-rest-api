@@ -35,9 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String servletPath = request.getServletPath();
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
 
-        if (servletPath.equals("/api/v1/login") || servletPath.equals("/api/v1/refresh")) {
-            chain.doFilter(request, response);
-        } else if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
             log.info("JwtRequestFilter : JWT Token 존재하지 않습니다.");
         } else {
             try {
