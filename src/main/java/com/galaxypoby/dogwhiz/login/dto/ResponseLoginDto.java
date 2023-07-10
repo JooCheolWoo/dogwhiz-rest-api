@@ -1,6 +1,7 @@
 package com.galaxypoby.dogwhiz.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.galaxypoby.dogwhiz.member.entity.MemberImage;
 import com.galaxypoby.dogwhiz.member.entity.Role;
 import lombok.Getter;
 
@@ -26,12 +27,9 @@ public class ResponseLoginDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime deletedAt;
 
-    private String memberImageUrl;
+    private MemberImage memberImage;
     private String accessToken;
 
-    public void setMemberImageUrl(String url) {
-        this.memberImageUrl = url;
-    }
     public void setToken(String token) {
         this.accessToken = token;
     }
