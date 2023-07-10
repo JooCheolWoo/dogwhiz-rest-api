@@ -32,45 +32,42 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
 
-        final String servletPath = request.getServletPath();
-        String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
+        final String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
+        String accessToken = null;
+        String username= null;
 
-        if (servletPath.equals("/api/v1/login") || servletPath.equals("/api/v1/refresh")) {
-            chain.doFilter(request, response);
-        } else if (authorizationHeader == null || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
-            log.info("JwtRequestFilter : JWT Token 존재하지 않습니다.");
-        } else {
-            try {
-                // Access Token 가져오기
-                String accessToken = authorizationHeader.substring(TOKEN_PREFIX.length());
-                String username = null;
+        try {
 
-                if (accessToken.isEmpty()) {
-                    log.info("JwtRequestFilter : JWT Token 잘못된 토큰입니다.");
-                } else {
-                    username = tokenProvider.getUsernameFromToken(accessToken);
-
-                    if (authorizationHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                        UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
-
-                        if (tokenProvider.validateToken(accessToken, userDetails)) {
-                            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                                    userDetails, null, userDetails.getAuthorities());
-                            usernamePasswordAuthenticationToken
-                                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                        }
-                    }
-                }
-            } catch (IllegalArgumentException e) {
-                log.info("JwtRequestFilter : Token 확인이 불가능합니다.");
-            } catch (ExpiredJwtException e) {
-                log.info("JwtRequestFilter : Token 만료되었습니다.");
-            } catch (Exception e) {
-                log.info("JwtRequestFilter : 잘못된 Token 입니다.");
+            if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
+                accessToken = authorizationHeader.substring(TOKEN_PREFIX.length());
+                username = tokenProvider.getUsernameFromToken(accessToken);
             }
 
+            if (accessToken.isEmpty()) {
+                log.info("JwtRequestFilter : JWT Token 값이 존재하지 않습니다.");
+            } else {
+                
+                if (authorizationHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
+
+                    if (tokenProvider.validateToken(accessToken, userDetails)) {
+                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        usernamePasswordAuthenticationToken
+                                .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    }
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            log.info("JwtRequestFilter : Token 확인이 불가능합니다.");
+        } catch (ExpiredJwtException e) {
+            log.info("JwtRequestFilter : Token 만료되었습니다.");
+        } catch (Exception e) {
+            log.info("JwtRequestFilter : 잘못된 Token 입니다.");
         }
+
+
         chain.doFilter(request, response);
     }
 }
