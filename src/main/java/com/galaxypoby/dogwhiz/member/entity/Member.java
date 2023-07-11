@@ -134,6 +134,14 @@ public class Member {
         this.status = status;
     }
 
+    public void updateEmailKey(String emailKey) {
+        this.emailKey = emailKey;
+    }
+
+    public void updateEmailAuth(boolean emailAuth) {
+        this.emailAuth = emailAuth;
+    }
+
     public void login() {
         this.loginIp = IpAnalyzer.getUserIp();
         this.lastLoginDate = LocalDateTime.now();

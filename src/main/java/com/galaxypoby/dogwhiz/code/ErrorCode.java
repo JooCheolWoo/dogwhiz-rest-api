@@ -34,7 +34,12 @@ public enum ErrorCode {
      */
     FILE_NOT_REGISTERED(2000, "파일이 등록되지 않았습니다."),
     FILE_NOT_IMAGE(2001, "이미지 파일만 등록이 가능합니다."),
-    FILE_OVER_SIZE(2002, "업로드 허용 용량을 초과합니다.");
+    FILE_OVER_SIZE(2002, "업로드 허용 용량을 초과합니다."),
+
+    /**
+     * 공통(3000)
+     */
+    FAIL_SEND_MAIL(3000, "메일 전송에 실패하였습니다.");
 
     @Getter
     private int status;

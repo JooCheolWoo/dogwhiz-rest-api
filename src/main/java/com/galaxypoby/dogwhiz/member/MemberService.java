@@ -4,6 +4,8 @@ import com.galaxypoby.dogwhiz.code.MemberCode;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
+import com.galaxypoby.dogwhiz.mail.EmailService;
+import com.galaxypoby.dogwhiz.mail.TempKey;
 import com.galaxypoby.dogwhiz.member.entity.MemberRole;
 import com.galaxypoby.dogwhiz.util.FileUpDown;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
@@ -32,6 +34,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final FileUpDown fileUpDown;
+    private final EmailService emailService;
 
     @Transactional
     public CustomResponse addMember(RequestMemberDto.SingUpDto request, MultipartFile file) throws CustomException {
@@ -67,9 +70,14 @@ public class MemberService {
         member.updateRole(memberRole);
         member.updateStatus(MemberCode.Status.PENDING.name());
 
+        String mailKey = new TempKey().getKey(30, false);
+        member.updateEmailKey(mailKey);
+
         memberRepository.save(member);
 
         ResponseMemberDto.MemberDto response = modelMapper.map(member, ResponseMemberDto.MemberDto.class);
+
+        emailService.sendEmail(member, "[인증메일] 도그위즈", "verification");
 
         return new CustomResponse(ErrorCode.OK, response);
     }
