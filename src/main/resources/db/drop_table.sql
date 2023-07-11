@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `member_address`;
-DROP TABLE IF EXISTS `member_auth`;
+DROP TABLE IF EXISTS `member_role`;
 
 DROP TABLE IF EXISTS `banner_file`;
 DROP TABLE IF EXISTS `banner`;

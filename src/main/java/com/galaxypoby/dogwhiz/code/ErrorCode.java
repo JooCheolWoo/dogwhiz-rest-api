@@ -16,6 +16,9 @@ public enum ErrorCode {
     MEMBER_NICKNAME_DUPLICATION(1002, "중복된 닉네임이 존재합니다."),
     MEMBER_PASSWORD_NOT_MATCH(1003, "비밀번호가 일치하지 않습니다."),
     MEMBER_ABNORMAL_REFRESH(1004, "잘못된 재인증 요청입니다."),
+    MEMBER_STATUS_PENDING(1005,"승인 대기중인 회원입니다."),
+    MEMBER_STATUS_SUSPENDED(1006, "이용이 정지된 회원입니다."),
+    MEMBER_STATUS_DEACTIVATED(1007, "탈퇴한 회원입니다."),
 
     /**
      * 존재하는 상태코드 (400)

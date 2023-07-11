@@ -1,9 +1,11 @@
 package com.galaxypoby.dogwhiz.member;
 
+import com.galaxypoby.dogwhiz.code.MemberCode;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
-import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
+import com.galaxypoby.dogwhiz.member.entity.MemberRole;
+import com.galaxypoby.dogwhiz.util.FileUpDown;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
@@ -56,6 +58,14 @@ public class MemberService {
             Map<String ,String> path = fileUpDown.fileUpload("profile", file);
             member.updateProfile(path);
         }
+
+        MemberRole memberRole = MemberRole.builder()
+                .member(member)
+                .role(MemberCode.Role.USER_NORMAL.name())
+                .build();
+
+        member.updateRole(memberRole);
+        member.updateStatus(MemberCode.Status.PENDING.name());
 
         memberRepository.save(member);
 

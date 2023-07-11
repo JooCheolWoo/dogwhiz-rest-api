@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -37,6 +38,10 @@ public class Board {
     @Column(nullable = true, columnDefinition = "VARCHAR(50)")
     private String subCategory;
 
+    @Comment("상단 고정")
+    @Column(name = "pin_to_top", nullable = false, columnDefinition = "TINYINT(1) default=0")
+    private boolean pinToTop;
+
     @Comment("제목")
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String title;
@@ -60,6 +65,7 @@ public class Board {
 
     @Comment("수정일")
     @Column(nullable = true, columnDefinition = "DATETIME")
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @Comment("삭제일")

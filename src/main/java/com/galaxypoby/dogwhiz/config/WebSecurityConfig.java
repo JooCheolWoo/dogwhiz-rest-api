@@ -1,5 +1,6 @@
 package com.galaxypoby.dogwhiz.config;
 
+import com.galaxypoby.dogwhiz.code.MemberCode;
 import com.galaxypoby.dogwhiz.config.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +46,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/members", "/api/v1/refresh").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**").permitAll()
+                .antMatchers("/test").hasAuthority(MemberCode.Role.ADMIN_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
                 .cors()

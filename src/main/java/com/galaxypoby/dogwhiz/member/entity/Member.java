@@ -13,8 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,6 +43,10 @@ public class Member {
     @Comment("비밀번호")
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String password;
+
+    @Comment("회원상태")
+    @Column(nullable = false, columnDefinition = "VARCAHR(20)")
+    private String status;
 
     @Comment("이름")
     @Column(nullable = true, columnDefinition = "VARCHAR(20)")
@@ -101,6 +107,10 @@ public class Member {
 
     @JsonIgnore
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MemberRole> memberRoles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemberAddress> memberAddresses;
 
     public void setEncodedPwd(String encodedPwd) {
@@ -111,6 +121,17 @@ public class Member {
     public void updateProfile(Map<String, String> path) {
         this.imageUrl = path.get("url");
         this.imagePath = path.get("path");
+    }
+
+    public void updateRole(MemberRole memberRole) {
+        if (memberRoles == null) {
+            memberRoles = new HashSet<>();
+        }
+        this.memberRoles.add(memberRole);
+    }
+
+    public void updateStatus(String status) {
+        this.status = status;
     }
 
     public void login() {

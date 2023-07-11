@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.common.fileManager;
+package com.galaxypoby.dogwhiz.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

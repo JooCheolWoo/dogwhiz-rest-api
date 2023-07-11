@@ -8,7 +8,7 @@ import com.galaxypoby.dogwhiz.banner.repository.BannerRepository;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
-import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
+import com.galaxypoby.dogwhiz.util.FileUpDown;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

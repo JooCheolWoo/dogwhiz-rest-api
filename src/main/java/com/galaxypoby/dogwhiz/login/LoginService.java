@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -30,7 +31,8 @@ public class LoginService {
     private final TokenProvider tokenProvider;
     private final UserDetailServiceImpl userDetailService;
     private final TokenService tokenService;
-    
+
+    @Transactional
     public CustomResponse loginMember(RequestLoginDto request) throws CustomException {
         Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
@@ -40,8 +42,6 @@ public class LoginService {
         }
 
         member.login();
-
-        memberRepository.save(member);
 
         ResponseLoginDto response = modelMapper.map(member, ResponseLoginDto.class);
 
@@ -53,6 +53,7 @@ public class LoginService {
 
         response.setTokenInfo(tokenDto);
         tokenService.addRefreshToken(member.getId(), userDetails);
+
 
         return new CustomResponse(ErrorCode.OK, response);
     }

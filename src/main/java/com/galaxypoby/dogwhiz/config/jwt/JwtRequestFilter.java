@@ -60,7 +60,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             log.info("JwtRequestFilter : Token 만료되었습니다.");
         } catch (Exception e) {
-            log.info("JwtRequestFilter : 잘못된 Token 입니다.");
+            log.info("JwtRequestFilter : " + e.getMessage());
         }
         chain.doFilter(request, response);
     }
