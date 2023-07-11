@@ -1,8 +1,6 @@
 package com.galaxypoby.dogwhiz.member;
 
 import com.galaxypoby.dogwhiz.code.ErrorCode;
-import com.galaxypoby.dogwhiz.code.RoleCode;
-import com.galaxypoby.dogwhiz.code.StatusCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;

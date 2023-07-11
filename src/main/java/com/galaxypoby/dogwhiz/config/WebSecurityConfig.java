@@ -1,6 +1,5 @@
 package com.galaxypoby.dogwhiz.config;
 
-import com.galaxypoby.dogwhiz.code.RoleCode;
 import com.galaxypoby.dogwhiz.config.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -40,16 +39,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        String admins[] = {RoleCode.ADMIN_MASTER.name(), RoleCode.ADMIN_MANAGER.name(), RoleCode.ADMIN_NORMAL.name()};
-
         return httpSecurity
                 .csrf().disable()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/members", "/api/v1/refresh").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/test", "/api/v1/banners").hasAnyRole(admins)
-                .antMatchers(HttpMethod.GET, "/test").hasAnyRole(admins)
                 .anyRequest().authenticated()
                 .and()
                 .cors()

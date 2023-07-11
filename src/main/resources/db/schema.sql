@@ -22,6 +22,19 @@ CREATE TABLE IF NOT EXISTS `member` (
     UNIQUE (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `member_auth` (
+    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '권한번호',
+    `member_id` BIGINT(20) UNSIGNED NOT NULL COMMENT '회원번호',
+    `admin_code` VARCHAR(255) DEFAULT NULL COMMENT '관리자 권한',
+    `admin_status` VARCHAR(255) DEFAULT NULL COMMENT '관리자 권한 상태',
+    `seller_code` VARCHAR(255) DEFAULT NULL COMMENT '판매자 권한',
+    `seller_status` VARCHAR(255) DEFAULT NULL COMMENT '판매자 권한 상태',
+    `user_code` VARCHAR(255) DEFAULT NULL COMMENT '회원 권한',
+    `user_status` VARCHAR(255) DEFAULT NULL COMMENT '회원 권한 상태',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE IF NOT EXISTS `member_address` (
     `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `member_id` BIGINT(20) UNSIGNED NOT NULL,
