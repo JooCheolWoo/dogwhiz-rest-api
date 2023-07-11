@@ -1,7 +1,6 @@
 package com.galaxypoby.dogwhiz.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.util.IpAnalyzer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,10 +11,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +41,30 @@ public class Member {
     @Comment("비밀번호")
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     private String password;
+
+    @Comment("이름")
+    @Column(nullable = true, columnDefinition = "VARCHAR(20)")
+    private String name;
+
+    @Comment("성별")
+    @Column(nullable = true, columnDefinition = "TINYINT(1)")
+    private boolean gender;
+
+    @Comment("생년월일")
+    @Column(nullable = true, columnDefinition = "DATE")
+    private LocalDate birth;
+
+    @Comment("전화번호")
+    @Column(nullable = true, columnDefinition = "VARCHAR(20)")
+    private String phone;
+
+    @Comment("프로필 사진 url")
+    @Column(nullable = true, columnDefinition = "VARCHAR(255)")
+    private String imageUrl;
+
+    @Comment("프로필 사진 경로")
+    @Column(nullable = true, columnDefinition = "VARCHAR(255)")
+    private String imagePath;
 
     @Comment("로그인 ip")
     @Column(nullable = true, columnDefinition = "VARCHAR(45)")
@@ -76,47 +99,18 @@ public class Member {
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "members_roles",
-            joinColumns = @JoinColumn(name = "member_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private Set<Role> roles;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private MemberDetail memberDetail;
-
     @JsonIgnore
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemberAddress> memberAddresses;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private MemberImage memberImage;
-
-
-    public void updateRole(Role role) {
-        if (this.roles == null) {
-            roles = new HashSet<>();
-        } else if (role.getRoleCode().name().startsWith("ADMIN")) {
-            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("ADMIN"));
-        } else if (role.getRoleCode().name().startsWith("SELLER")) {
-            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("SELLER"));
-        } else if (role.getRoleCode().name().startsWith("USER")) {
-            roles.removeIf(rm -> rm.getRoleCode().name().startsWith("USER"));
-        }
-        roles.add(role);
-    }
-
-    public void updateMemberImage(MemberImage memberImage) {
-        this.memberImage = memberImage;
-    }
-
     public void setEncodedPwd(String encodedPwd) {
         this.password = encodedPwd;
         this.updatePwdDate = LocalDateTime.now();
+    }
+
+    public void updateProfile(Map<String, String> path) {
+        this.imageUrl = path.get("url");
+        this.imagePath = path.get("path");
     }
 
     public void login() {
@@ -124,15 +118,7 @@ public class Member {
         this.lastLoginDate = LocalDateTime.now();
     }
 
-    public void editInfo(RequestMemberDto.EditDto request) {
-
-        this.updatedAt = LocalDateTime.now();
-    }
-
     public void leave() {
-        for (Role role : this.roles) {
-
-        }
         this.deletedAt = LocalDateTime.now();
     }
 }

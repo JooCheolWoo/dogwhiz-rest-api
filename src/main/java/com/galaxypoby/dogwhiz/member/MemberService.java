@@ -9,10 +9,7 @@ import com.galaxypoby.dogwhiz.common.fileManager.FileUpDown;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
-import com.galaxypoby.dogwhiz.member.entity.MemberImage;
-import com.galaxypoby.dogwhiz.member.entity.Role;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
-import com.galaxypoby.dogwhiz.member.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -34,7 +31,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private final RoleRepository roleRepository;
     private final FileUpDown fileUpDown;
 
     @Transactional
@@ -58,14 +54,9 @@ public class MemberService {
         Member member = modelMapper.map(request, Member.class);
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
-        Role role = roleRepository.findByRoleCodeAndStatusCode(RoleCode.USER_NORMAL, StatusCode.PENDING);
-
-        member.updateRole(role);
-
         if (file != null) {
             Map<String ,String> path = fileUpDown.fileUpload("profile", file);
-            MemberImage memberImage = new MemberImage(member, file, path);
-            member.updateMemberImage(memberImage);
+            member.updateProfile(path);
         }
 
         memberRepository.save(member);

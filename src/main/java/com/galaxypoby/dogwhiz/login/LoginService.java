@@ -6,6 +6,7 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.config.jwt.TokenProvider;
 import com.galaxypoby.dogwhiz.config.jwt.UserDetailServiceImpl;
 import com.galaxypoby.dogwhiz.jwt.TokenService;
+import com.galaxypoby.dogwhiz.jwt.dto.ResponseTokenDto;
 import com.galaxypoby.dogwhiz.jwt.repository.RefreshTokenRepository;
 import com.galaxypoby.dogwhiz.login.dto.RequestLoginDto;
 import com.galaxypoby.dogwhiz.login.dto.ResponseLoginDto;
@@ -16,6 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +47,11 @@ public class LoginService {
 
         UserDetails userDetails = userDetailService.loadUserByUsername(member.getEmail());
         String accessToken = tokenProvider.generateAccessToken(userDetails);
+        ResponseTokenDto tokenDto = new ResponseTokenDto();
+        tokenDto.setAccessToken(accessToken);
+        tokenDto.setExpiredDate(tokenProvider.getExpirationDateFromToken(accessToken).getTime());
 
-        response.setToken(accessToken);
+        response.setTokenInfo(tokenDto);
         tokenService.addRefreshToken(member.getId(), userDetails);
 
         return new CustomResponse(ErrorCode.OK, response);

@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @EnableJpaAuditing
 @SpringBootApplication
 public class DogwhizRestApiNewApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DogwhizRestApiNewApplication.class, args);
 	}
