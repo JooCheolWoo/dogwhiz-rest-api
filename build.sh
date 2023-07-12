@@ -7,8 +7,11 @@ git checkout .
 git clean -fdx
 git pull
 
+PROFILE=$1
+
 # execute docker build
-/bin/bash build-docker.sh
+# shellcheck disable=SC2086
+/bin/bash build-docker.sh $PROFILE
 
 
 

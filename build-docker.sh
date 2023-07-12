@@ -1,6 +1,8 @@
 #!/bin/bash
 
-APP_NAME="dogwhiz-rest-api"
+PROFILE=$1
+
+APP_NAME="dogwhiz-rest-api-${PROFILE}"
 APP_NAME_OLD="${APP_NAME}-old"
 server_version-old="0.0.1"
 server_version="0.0.1"
@@ -30,15 +32,19 @@ echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
 docker rmi ${APP_NAME_OLD}:${server_version-old}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
-cp /home/galaxypoby/projects/documents/dogwhiz-dev.env ./dogwhiz-dev.env
+ if [ "$PROFILE" == "prod" ]; then
+        DOMAIN="api.hellodogwhiz.com"
+    else
+        DOMAIN="${PROFILE}.api.hellodogwhiz.com"
+    fi
 docker run -d \
-    -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
-    -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
+    -e VIRTUAL_HOST=${DOMAIN} \
+    -e LETSENCRYPT_HOST=${DOMAIN} \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     -e TZ=Asia/Seoul \
     -v /etc/localtime:/etc/localtime:ro \
-    -v /home/galaxypoby/storage/dogwhiz-dev:/home \
-    --env-file dogwhiz-dev.env \
+    -v /home/galaxypoby/storage/dogwhiz-${PROFILE}:/home \
+    --env-file ../documents/dogwhiz-${PROFILE}.env \
     --network nginx-proxy \
     --restart unless-stopped \
     --name ${APP_NAME} \
