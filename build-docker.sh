@@ -39,7 +39,8 @@ docker run -d \
     -v /etc/localtime:/etc/localtime:ro \
     -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     --env-file ../documents/dogwhiz-dev.env \
-    --e rds-url=58.238.182.90 \
+    -e rds-url=58.238.182.90 \
+    -e rds-port=10401 \
     --network nginx-proxy \
     --restart unless-stopped \
     --name ${APP_NAME} \
