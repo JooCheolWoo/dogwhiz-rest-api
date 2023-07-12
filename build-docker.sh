@@ -37,7 +37,7 @@ docker run -d \
     -v /etc/localtime:/etc/localtime:ro \
     -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     --network nginx-proxy \
-    --env-file ../documents/dogwhiz-dev.env \
+    --env-file /home/galaxypoby/projects/documents/dogwhiz-dev.env \
     --restart unless-stopped \
     --name ${APP_NAME} \
     ${APP_NAME}:${server_version}
