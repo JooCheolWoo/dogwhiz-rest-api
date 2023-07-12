@@ -275,8 +275,8 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
         
   <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
 <div align="center">
-  <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="&quot;@{'http://localhost:3000/members/authEmail?email=' + ${email} + '&mailKey=' + ${mailKey}}&quot;" style="height:37px; v-text-anchor:middle; width:96px;" arcsize="11%"  stroke="f" fillcolor="#ff9494"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->  
-    <a th:href="@{'http://localhost:3000/members/authEmail?email=' + ${email} + '&mailKey=' + ${mailKey}}" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ff9494; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+  <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" th:href="@{'http://localhost:3000/members/verification?email=' + ${email} + '&emailKey=' + ${emailKey}}" style="height:37px; v-text-anchor:middle; width:96px;" arcsize="11%"  stroke="f" fillcolor="#ff9494"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->
+    <a th:href="@{'http://localhost:3000/members/verification?email=' + ${email} + '&emailKey=' + ${emailKey}}" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ff9494; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
       <span style="display:block;padding:10px 20px;line-height:120%;"><strong><span style="line-height: 16.8px;">인증하기</span></strong></span>
     </a>
   <!--[if mso]></center></v:roundrect><![endif]-->
@@ -406,9 +406,12 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
         </a>
       </td></tr>
     </tbody></table>
+    <br/>
+    <br/>
+    <br/>
     <!--[if (mso)|(IE)]></td><![endif]-->
-    
-    
+
+
     <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
   </div>
 </div>

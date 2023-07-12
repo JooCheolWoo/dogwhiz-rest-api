@@ -39,7 +39,8 @@ public enum ErrorCode {
     /**
      * 공통(3000)
      */
-    FAIL_SEND_MAIL(3000, "메일 전송에 실패하였습니다.");
+    FAIL_SEND_EMAIL(3000, "메일 전송에 실패하였습니다."),
+    FAIL_VERIFY_EMAIL(3001, "잘못된 인증키 또는 이메일입니다.");
 
     @Getter
     private int status;

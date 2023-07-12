@@ -136,4 +136,19 @@ public class MemberService {
 
         return new CustomResponse(ErrorCode.OK);
     }
+
+    @Transactional
+    public CustomResponse verifyEmail(String email, String emailKey) throws CustomException {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+        if (member.getEmailKey().equals(emailKey)) {
+            member.updateEmailAuth(true);
+            member.updateStatus(MemberCode.Status.APPROVED.name());
+        } else {
+            throw new CustomException(ErrorCode.FAIL_VERIFY_EMAIL);
+        }
+
+        return new CustomResponse(ErrorCode.OK);
+    }
 }

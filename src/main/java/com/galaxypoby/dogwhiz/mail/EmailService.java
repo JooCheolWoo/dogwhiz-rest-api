@@ -28,7 +28,7 @@ public class EmailService {
             // Create a Thymeleaf context
             Context context = new Context();
             context.setVariable("email", member.getEmail());
-            context.setVariable("mailKey", member.getEmailKey());
+            context.setVariable("emailKey", member.getEmailKey());
             context.setVariable("nickname", member.getNickname());
 
             // Generate the HTML body using Thymeleaf
@@ -41,7 +41,7 @@ public class EmailService {
             mailHandler.send();
             log.info(member.getEmail() + " 이메일 전송 완료!!");
         } catch (Exception e) {
-            throw new CustomException(ErrorCode.FAIL_SEND_MAIL);
+            throw new CustomException(ErrorCode.FAIL_SEND_EMAIL);
         }
     }
 

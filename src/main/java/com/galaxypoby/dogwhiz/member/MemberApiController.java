@@ -52,4 +52,12 @@ public class MemberApiController {
     public CustomResponse nicknameValid(@RequestParam("nickname") String nickname) {
         return memberService.canUseNickname(nickname);
     }
+
+    @GetMapping("/verification")
+    public CustomResponse emailVerify(@RequestParam("email") String email,
+                                      @RequestParam("emailKey") String emailKey) throws CustomException {
+        log.info(email);
+        log.info(emailKey);
+        return memberService.verifyEmail(email, emailKey);
+    }
 }
