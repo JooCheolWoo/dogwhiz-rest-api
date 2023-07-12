@@ -60,6 +60,7 @@ function run_new_docker_container() {
         -e LETSENCRYPT_HOST=${DOMAIN} \
         -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
         -e TZ=Asia/Seoul \
+        -e PROFILE=${PROFILE} \
         -v /etc/localtime:/etc/localtime:ro \
         --network nginx-proxy \
         --restart unless-stopped \
