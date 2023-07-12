@@ -26,7 +26,7 @@ function gradle_build() {
 
 function build_docker_image() {
     echo "---------- [Deploy Step - 4] : Build New Docker Image"
-    docker build --build-arg PROFILE=${PROFILE} -t ${APP_NAME}:${PROFILE}-${server_version} .
+    docker build --build-arg PROFILE=${PROFILE} -t ${APP_NAME}:${server_version} .
 }
 
 function stop_old_docker_container() {
