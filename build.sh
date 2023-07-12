@@ -8,10 +8,10 @@ git reset
 git checkout .
 git clean -fdx
 
-if [ "$PROFILE" == "dev" ]; then
+if [ "$PROFILE" = "dev" ]; then
     echo "git pull from origin dev"
     git pull origin dev
-elif [ "$PROFILE" == "prod" ]; then
+elif [ "$PROFILE" = "prod" ]; then
     echo "git pull from origin main"
     git pull origin main
 else
