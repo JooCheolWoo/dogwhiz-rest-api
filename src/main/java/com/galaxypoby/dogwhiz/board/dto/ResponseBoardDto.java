@@ -1,6 +1,7 @@
 package com.galaxypoby.dogwhiz.board.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.galaxypoby.dogwhiz.code.BoardCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,8 +15,8 @@ public class ResponseBoardDto {
         private Long memberId;
         private String nickname;
         private String imageUrl;
-        private String category;
-        private String subCategory;
+        private String categoryDesc;
+        private String subCategoryDesc;
         private boolean pinToTop;
         private String title;
         private String content;
@@ -31,6 +32,14 @@ public class ResponseBoardDto {
         public void setupWriter(String nickname, String imageUrl) {
             this.nickname = nickname;
             this.imageUrl = imageUrl;
+        }
+
+        public void setCategory(String category) {
+            this.categoryDesc = BoardCode.Category.codeToValue(category);
+        }
+
+        public void setSubCategory(String subCategory) {
+            this.subCategoryDesc =  BoardCode.SubCategory.codeToValue(subCategory);
         }
     }
 }

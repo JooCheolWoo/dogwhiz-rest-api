@@ -19,6 +19,15 @@ public class BoardCode {
         private String code;
         @Getter
         private String value;
+
+        public static String codeToValue(String code) {
+            for (Category category : Category.values()) {
+                if (category.getCode().equals(code)) {
+                    return category.getValue();
+                }
+            }
+            throw new IllegalArgumentException("Invalid code: " + code);
+        }
     }
 
     @AllArgsConstructor
@@ -57,5 +66,14 @@ public class BoardCode {
         private String code;
         @Getter
         private String value;
+
+        public static String codeToValue(String code) {
+            for (SubCategory subCategory : SubCategory.values()) {
+                if (subCategory.getCode().equals(code)) {
+                    return subCategory.getValue();
+                }
+            }
+            throw new IllegalArgumentException("Invalid code: " + code);
+        }
     }
 }

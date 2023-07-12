@@ -1,5 +1,6 @@
 package com.galaxypoby.dogwhiz.board.entity;
 
+import com.galaxypoby.dogwhiz.code.BoardCode;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
