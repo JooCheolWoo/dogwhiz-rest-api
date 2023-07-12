@@ -63,7 +63,7 @@ function run_new_docker_container() {
         -v /etc/localtime:/etc/localtime:ro \
         --network nginx-proxy \
         --restart unless-stopped \
-        --name ${APP_NAME}-${PROFILE} \
+        --name ${APP_NAME} \
         -v /home/galaxypoby/storage/dogwhiz-${PROFILE}:/home \
         ${APP_NAME}:${PROFILE}-${server_version}
 }
