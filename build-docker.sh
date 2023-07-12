@@ -31,12 +31,16 @@ function build_docker_image() {
 
 function stop_old_docker_container() {
     echo "---------- [Deploy Step - 5] : Stop Old Docker Container"
-    docker stop ${APP_NAME_OLD} || true
+    if [ "$(docker ps -aq -f name=${APP_NAME_OLD})" ]; then
+        docker stop ${APP_NAME_OLD}
+    fi
 }
 
 function remove_old_docker_container() {
     echo "---------- [Deploy Step - 6] : Remove Old Docker Container"
-    docker rm ${APP_NAME_OLD} || true
+    if [ "$(docker ps -aq -f name=${APP_NAME_OLD})" ]; then
+        docker rm ${APP_NAME_OLD}
+    fi
 }
 
 function remove_old_docker_image() {
