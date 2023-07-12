@@ -63,6 +63,7 @@ function run_new_docker_container() {
         -e PROFILE=${PROFILE} \
         -v /etc/localtime:/etc/localtime:ro \
         --network nginx-proxy \
+        --env-file ../documents/dogwhiz-${PROFILE}.env \
         --restart unless-stopped \
         --name ${APP_NAME} \
         -v /home/galaxypoby/storage/dogwhiz-${PROFILE}:/home \
