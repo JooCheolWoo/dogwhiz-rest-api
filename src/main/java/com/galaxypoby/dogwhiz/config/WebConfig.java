@@ -15,7 +15,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .exposedHeaders("X-AUTH-TOKEN")
                 .allowCredentials(true)
-                .allowedOrigins("*")
+                .allowedOrigins("https://dev.front.hellodogwhiz.com"
+                        , "http://localhost:3000"
+                        , "https://w6gqmm-3000.csb.app")
                 .allowedMethods("*")
                 .maxAge(3000);
     }
