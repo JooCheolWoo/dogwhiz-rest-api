@@ -1,7 +1,11 @@
 #!/bin/bash
 APP_NAME="dogwhiz-rest-api"
-
 PROFILE=$1
+
+if [ -z "$PROFILE" ]; then
+    echo "---------- [REQUIRE] PROFILE is required('dev' or 'prod')."
+    exit 1
+fi
 
 cd /home/galaxypoby/projects/${APP_NAME}
 git reset
@@ -9,10 +13,10 @@ git checkout .
 git clean -fdx
 
 if [ "$PROFILE" = "dev" ]; then
-    echo "git pull from origin dev"
+    echo "---------- [GIT INFO] git pull from origin dev"
     git pull origin dev
 elif [ "$PROFILE" = "prod" ]; then
-    echo "git pull from origin main"
+    echo "---------- [GIT INFO] git pull from origin main"
     git pull origin main
 else
     echo "Invalid PROFILE: $PROFILE. Please use 'dev' or 'prod'."
