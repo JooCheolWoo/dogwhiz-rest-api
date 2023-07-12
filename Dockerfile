@@ -6,5 +6,5 @@ WORKDIR /app
 
 COPY ./build/libs/dogwhiz-rest-api-0.0.1-SNAPSHOT.jar ./dogwhiz-rest-api.jar
 
-ENTRYPOINT ["sh", "-c", "java -Dspring.profiles.active=$PROFILE -jar dogwhiz-rest-api.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=$PROFILE", "dogwhiz-rest-api.jar"]
 
