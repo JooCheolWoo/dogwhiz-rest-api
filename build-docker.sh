@@ -23,22 +23,22 @@ echo "---------- [Deploy Step - 5] : Stop Old Docker Container"
 docker stop ${APP_NAME_OLD}
 # 6. Remove the old docker container
 echo "---------- [Deploy Step - 6] : Remove Old Docker Container"
-docker rm ${APP_NAME_OLD}
+docker rm ${APP_NAME_OLD} --force
 # 7. Remove the old docker image
 echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
-docker rmi ${APP_NAME_OLD}
+docker rmi ${APP_NAME_OLD} --force
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
+    --env-file /home/galaxypoby/projects/documents/dogwhiz-dev.env \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
-    -e VIRTUAL_PORT=10800
+    -e VIRTUAL_PORT=10800 \
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     -e TZ=Asia/Seoul \
     -v /etc/localtime:/etc/localtime:ro \
     -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     --network nginx-proxy \
-    --env-file /home/galaxypoby/projects/documents/dogwhiz-dev.env \
     --restart unless-stopped \
     --name ${APP_NAME} \
     ${APP_NAME}:${server_version}
