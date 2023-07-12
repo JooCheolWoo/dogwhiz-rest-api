@@ -27,9 +27,9 @@ spring:
     init:
       schema-locations:
         classpath*:db/drop_table.sql,
-        classpath*:db/schema.sql,
-        classpath*:db/data.sql
-        #classpath*:db/alter_table.sql,
+        classpath*:db/dev/schema.sql,
+        classpath*:db/dev/data.sql
+#        classpath*:db/alter_table.sql
       mode: always
 
   servlet:

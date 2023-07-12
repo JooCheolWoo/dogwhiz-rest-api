@@ -9,7 +9,7 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mariadb://${rds-url}/${rds-schema}
+    url: jdbc:mariadb://${rds-url}:${rds-port}/${rds-schema}
     username: ${rds-user}
     password: ${rds-pass}
     driver-class-name: org.mariadb.jdbc.Driver
@@ -26,9 +26,9 @@ spring:
   sql:
     init:
       schema-locations:
-        classpath*:db/schema.sql,
-        classpath*:db/alter_table.sql,
-        classpath*:db/data.sql
+        classpath*:db/prod/schema.sql,
+#        classpath*:db/alter_table.sql,
+        classpath*:db/prod/data.sql
       mode: always
 
   servlet:

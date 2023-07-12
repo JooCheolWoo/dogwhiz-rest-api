@@ -2,7 +2,7 @@
 
 PROFILE=$1
 
-echo "---------------- [Active : $PROFILE]"
+echo "---------- [Active profile] : $PROFILE"
 
 APP_NAME="dogwhiz-rest-api-$PROFILE"
 APP_NAME_OLD="${APP_NAME}-old"
