@@ -30,7 +30,7 @@ echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
 docker rmi ${APP_NAME_OLD}:${server_version-old}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
-COPY /home/galaxypoby/projects/documents/dogwhiz-dev.env ./dogwhiz-dev.env
+cp /home/galaxypoby/projects/documents/dogwhiz-dev.env ./dogwhiz-dev.env
 docker run -d \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
