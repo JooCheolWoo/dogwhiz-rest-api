@@ -18,6 +18,7 @@ public class ResponseMemberDto {
         private String nickname;
         private String imageUrl;
         private boolean emailAuth;
+        private String emailKey;
         private Set<MemberRole> roles;
         private String status;
         private String loginIp;
