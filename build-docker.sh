@@ -1,7 +1,9 @@
 #!/bin/bash
-set -e
 
-APP_NAME="dogwhiz-rest-api"
+# Get the profile from command line argument
+PROFILE=$1
+
+APP_NAME="dogwhiz-rest-api-${PROFILE}"
 APP_NAME_OLD="${APP_NAME}-old"
 server_version="0.0.1"
 
