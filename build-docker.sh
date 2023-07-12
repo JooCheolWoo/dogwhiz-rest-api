@@ -31,7 +31,7 @@ docker rmi ${APP_NAME_OLD}:${server_version-old}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
-    --env-file /home/galaxypoby/projects/documents/dogwhiz-dev.env \
+    --env-file ../documents/dogwhiz-dev.env \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
     -e VIRTUAL_PORT=10800 \
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
@@ -41,7 +41,7 @@ docker run -d \
     -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     --network nginx-proxy \
     --restart unless-stopped \
-    --name ${APP_NAME} \
+    --name ${APP_NAME}:${server_version} \
     ${APP_NAME}:${server_version}
 
 # docker logs show
