@@ -1,5 +1,6 @@
 package com.galaxypoby.dogwhiz.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,6 +13,14 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
+        @Value("${spring.mail.host}")
+        private String host;
+        @Value("${spring.mail.port}")
+        private int port;
+        @Value("${spring.mail.username}")
+        private String username;
+        @Value("${spring.mail.password}")
+        private String password;
 
     @Bean
     public JavaMailSender javaMailSender() {
@@ -21,15 +30,15 @@ public class MailConfig {
         mailProperties.put("mail.smtp.auth", "true");
         mailProperties.put("mail.smtp.starttls.enable", "true");
         mailProperties.put("mail.smtp.debug", "true");
-        mailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mailProperties.put("mail.smtp.ssl.trust", host);
         mailProperties.put("mail.smtp.ssl.protocols", "TLSv1.3");
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setJavaMailProperties(mailProperties);
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("galaxypoby");
-        mailSender.setPassword("wyecceexdzmriijm"); // 환경변수로 수정해야함
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password); // 환경변수로 수정해야함
         mailSender.setDefaultEncoding("utf-8");
         return mailSender;
     }
@@ -44,10 +53,10 @@ public class MailConfig {
     @Bean
     public ClassLoaderTemplateResolver thymeleafTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("/templates/");  // templates 폴더 내에 위치한 템플릿 파일을 찾습니다.
-        templateResolver.setSuffix(".html");  // .html 확장자를 가진 템플릿 파일을 찾습니다.
-        templateResolver.setTemplateMode(TemplateMode.HTML);  // HTML 형식의 템플릿을 처리합니다.
-        templateResolver.setCharacterEncoding("UTF-8");  // 문자 인코딩을 UTF-8로 설정합니다.
+        templateResolver.setPrefix("/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 }

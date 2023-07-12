@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 APP_NAME="dogwhiz-rest-api"
 APP_NAME_OLD="${APP_NAME}-old"
@@ -6,40 +7,69 @@ server_version="0.0.1"
 
 source ./yaml.sh
 
-# 1. Change the current docker container name to old
-echo "---------- [Deploy Step - 1] : Rename Current Docker Container"
-docker rename ${APP_NAME} ${APP_NAME_OLD}
-# 2. Change the current docker images name to old
-echo "---------- [Deploy Step - 2] : Rename Current Docker Image"
-docker tag ${APP_NAME}:${server_version} ${APP_NAME_OLD}:${server_version}
-# 3. Build the jar using gradle
-echo "---------- [Deploy Step - 3] : Gradle Build"
-sh gradlew build -x test
-# 4. Build the docker image
-echo "---------- [Deploy Step - 4] : Build New Docker Image"
-docker build -t ${APP_NAME}:${server_version} .
-# 5. Stop the old docker container
-echo "---------- [Deploy Step - 5] : Stop Old Docker Container"
-docker stop ${APP_NAME_OLD}
-# 6. Remove the old docker container
-echo "---------- [Deploy Step - 6] : Remove Old Docker Container"
-docker rm ${APP_NAME_OLD}
-# 7. Remove the old docker image
-echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
-docker rmi ${APP_NAME_OLD}:${server_version}
-# 8. Run new docker container
-echo "---------- [Deploy Step - 8] : Run New Docker Container"
-docker run -d \
-    -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
-    -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
-    -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
-    -e TZ=Asia/Seoul \
-    -v /etc/localtime:/etc/localtime:ro \
-    --network nginx-proxy \
-    --restart unless-stopped \
-    --name ${APP_NAME} \
-    -v /home/galaxypoby/storage/dogwhiz-dev:/home \
-    ${APP_NAME}:${server_version}
+function rename_current_docker_container() {
+    echo "---------- [Deploy Step - 1] : Rename Current Docker Container"
+    docker rename ${APP_NAME} ${APP_NAME_OLD}
+}
 
-# docker logs show
-docker logs -f ${APP_NAME}
+function rename_current_docker_image() {
+    echo "---------- [Deploy Step - 2] : Rename Current Docker Image"
+    docker tag ${APP_NAME}:${server_version} ${APP_NAME_OLD}:${server_version}
+}
+
+function gradle_build() {
+    echo "---------- [Deploy Step - 3] : Gradle Build"
+    sh gradlew build -x test
+}
+
+function build_docker_image() {
+    echo "---------- [Deploy Step - 4] : Build New Docker Image"
+    docker build --build-arg PROFILE=${PROFILE} -t ${APP_NAME}:${PROFILE}-${server_version} .
+}
+
+function stop_old_docker_container() {
+    echo "---------- [Deploy Step - 5] : Stop Old Docker Container"
+    docker stop ${APP_NAME_OLD} || true
+}
+
+function remove_old_docker_container() {
+    echo "---------- [Deploy Step - 6] : Remove Old Docker Container"
+    docker rm ${APP_NAME_OLD} || true
+}
+
+function remove_old_docker_image() {
+    echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
+    docker rmi ${APP_NAME_OLD}:${server_version} || true
+}
+
+function run_new_docker_container() {
+    echo "---------- [Deploy Step - 8] : Run New Docker Container"
+    if [ "$PROFILE" == "prod" ]; then
+        DOMAIN="api.hellodogwhiz.com"
+    else
+        DOMAIN="${PROFILE}.api.hellodogwhiz.com"
+    fi
+    docker run -d \
+        -e VIRTUAL_HOST=${DOMAIN} \
+        -e LETSENCRYPT_HOST=${DOMAIN} \
+        -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
+        -e TZ=Asia/Seoul \
+        -v /etc/localtime:/etc/localtime:ro \
+        --network nginx-proxy \
+        --restart unless-stopped \
+        --name ${APP_NAME}-${PROFILE} \
+        -v /home/galaxypoby/storage/dogwhiz-${PROFILE}:/home \
+        ${APP_NAME}:${PROFILE}-${server_version}
+}
+
+
+function show_docker_logs() {
+    docker logs -f ${APP_NAME}
+}
+
+functions=(rename_current_docker_container rename_current_docker_image gradle_build build_docker_image stop_old_docker_container remove_old_docker_container remove_old_docker_image run_new_docker_container show_docker_logs)
+
+for function in "${functions[@]}"
+do
+    $function
+done
