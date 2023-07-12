@@ -26,7 +26,7 @@ echo "---------- [Deploy Step - 6] : Remove Old Docker Container"
 docker rm ${APP_NAME_OLD}
 # 7. Remove the old docker image
 echo "---------- [Deploy Step - 7] : Remove Old Docker Image"
-docker rmi ${APP_NAME_OLD}:${server_version}
+docker rmi ${APP_NAME_OLD}
 # 8. Run new docker container
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
