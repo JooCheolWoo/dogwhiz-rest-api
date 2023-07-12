@@ -31,6 +31,7 @@ docker rmi ${APP_NAME_OLD}
 echo "---------- [Deploy Step - 8] : Run New Docker Container"
 docker run -d \
     -e VIRTUAL_HOST=dev.api.hellodogwhiz.com \
+    -e VIRTUAL_PORT=10800
     -e LETSENCRYPT_HOST=dev.api.hellodogwhiz.com \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     -e TZ=Asia/Seoul \
