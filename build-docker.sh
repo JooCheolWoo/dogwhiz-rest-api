@@ -35,11 +35,11 @@ docker run -d \
     -e LETSENCRYPT_EMAIL=tkfkdal@naver.com \
     -e TZ=Asia/Seoul \
     -v /etc/localtime:/etc/localtime:ro \
+    -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     --network nginx-proxy \
     --env-file ../documents/dogwhiz-dev.env \
     --restart unless-stopped \
     --name ${APP_NAME} \
-    -v /home/galaxypoby/storage/dogwhiz-dev:/home \
     ${APP_NAME}:${server_version}
 
 # docker logs show
