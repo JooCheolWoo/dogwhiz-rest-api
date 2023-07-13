@@ -8,7 +8,7 @@ import com.galaxypoby.dogwhiz.banner.repository.BannerRepository;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
-import com.galaxypoby.dogwhiz.util.FileUpDown;
+import com.galaxypoby.dogwhiz.util.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,7 +28,7 @@ public class BannerService {
 
     private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
-    private final FileUpDown fileUpDown;
+    private final FileManager fileManager;
 
     @Transactional
     public CustomResponse addBanner(RequestBannerDto.ResisterDto request, MultipartFile file) throws CustomException {
@@ -42,7 +42,7 @@ public class BannerService {
             throw new CustomException(ErrorCode.FILE_NOT_IMAGE);
         }
 
-        Map<String ,String> path = fileUpDown.fileUpload("banner", file);
+        Map<String ,String> path = fileManager.fileUpload("banner", file);
 
         BannerFile bannerFile = new BannerFile(banner, file, path);
 

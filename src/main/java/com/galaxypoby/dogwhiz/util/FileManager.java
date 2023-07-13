@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class FileUpDown {
+public class FileManager {
 
     @Value("${path.rootURL}")
     private String rootURL;

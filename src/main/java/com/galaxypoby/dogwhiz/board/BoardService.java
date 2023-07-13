@@ -11,7 +11,7 @@ import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.member.entity.Member;
 import com.galaxypoby.dogwhiz.member.repository.MemberRepository;
-import com.galaxypoby.dogwhiz.util.FileUpDown;
+import com.galaxypoby.dogwhiz.util.FileManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,7 +28,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    private final FileUpDown fileUpDown;
+    private final FileManager fileManager;
     private final ModelMapper modelMapper;
 
     @Transactional

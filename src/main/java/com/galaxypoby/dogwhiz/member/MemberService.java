@@ -7,7 +7,7 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import com.galaxypoby.dogwhiz.mail.EmailService;
 import com.galaxypoby.dogwhiz.mail.TempKey;
 import com.galaxypoby.dogwhiz.member.entity.MemberRole;
-import com.galaxypoby.dogwhiz.util.FileUpDown;
+import com.galaxypoby.dogwhiz.util.FileManager;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
 import com.galaxypoby.dogwhiz.member.dto.ResponseMemberDto;
 import com.galaxypoby.dogwhiz.member.entity.Member;
@@ -33,7 +33,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private final FileUpDown fileUpDown;
+    private final FileManager fileManager;
     private final EmailService emailService;
 
     @Transactional
@@ -58,7 +58,7 @@ public class MemberService {
         member.setEncodedPwd(passwordEncoder.encode(member.getPassword()));
 
         if (file != null) {
-            Map<String ,String> path = fileUpDown.fileUpload("profile", file);
+            Map<String ,String> path = fileManager.fileUpload("profile", file);
             member.updateProfile(path);
         }
 
