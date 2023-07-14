@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 public class ResponseBoardDto {
 
@@ -13,10 +14,10 @@ public class ResponseBoardDto {
     public static class BoardDto {
         private Long id;
         private Long memberId;
-        private String nickname;
-        private String imageUrl;
-        private String categoryDesc;
-        private String subCategoryDesc;
+        private String memberNickname;
+        private String memberImageUrl;
+        private String category;
+        private String subCategory;
         private boolean pinToTop;
         private String title;
         private String content;
@@ -30,16 +31,16 @@ public class ResponseBoardDto {
         private LocalDateTime deletedAt;
 
         public void setupWriter(String nickname, String imageUrl) {
-            this.nickname = nickname;
-            this.imageUrl = imageUrl;
+            this.memberNickname = nickname;
+            this.memberImageUrl = imageUrl;
         }
 
         public void setCategory(String category) {
-            this.categoryDesc = BoardCode.Category.codeToValue(category);
+            this.category = BoardCode.Category.codeToValue(category);
         }
 
         public void setSubCategory(String subCategory) {
-            this.subCategoryDesc =  BoardCode.SubCategory.codeToValue(subCategory);
+            this.subCategory =  BoardCode.SubCategory.codeToValue(subCategory);
         }
     }
 }

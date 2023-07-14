@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -61,4 +64,24 @@ public class BoardService {
         return new CustomResponse(ErrorCode.OK, response);
     }
 
+    public CustomResponse findPostList(String category) {
+        category = category.toUpperCase();
+
+        String categoryCode = BoardCode.Category.nameToCode(category);
+        List<Board> postList = boardRepository.findByCategoryAndDeletedAtIsNull(categoryCode);
+
+        List<ResponseBoardDto.BoardDto> response = postList
+                .stream()
+                .map(post -> modelMapper.map(post, ResponseBoardDto.BoardDto.class))
+                .collect(Collectors.toList());
+
+        for (ResponseBoardDto.BoardDto boardDto : response) {
+            Member member = memberRepository.findById(boardDto.getMemberId())
+                    .orElseThrow();
+
+            boardDto.setupWriter(member.getNickname(), member.getImageUrl());
+        }
+
+        return new CustomResponse(ErrorCode.OK, response);
+    }
 }

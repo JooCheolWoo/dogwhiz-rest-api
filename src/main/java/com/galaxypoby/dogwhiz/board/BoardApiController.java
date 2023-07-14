@@ -6,10 +6,7 @@ import com.galaxypoby.dogwhiz.common.CustomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -24,5 +21,10 @@ public class BoardApiController {
                                   @RequestPart(name = "request") RequestBoardDto.BoardDto request,
                                   @RequestPart(name = "file", required = false) MultipartFile[] files) throws CustomException {
         return  boardService.addPost(userDetails, request, files);
+    }
+
+    @GetMapping("/{category}")
+    public CustomResponse postList(@PathVariable("category") String category) {
+        return boardService.findPostList(category);
     }
 }

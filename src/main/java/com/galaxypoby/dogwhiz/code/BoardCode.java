@@ -28,10 +28,22 @@ public class BoardCode {
             }
             throw new IllegalArgumentException("Invalid code: " + code);
         }
+
+        public static String nameToCode(String name) {
+            for (Category category : Category.values()) {
+                if (category.name().equals(name)) {
+                    return category.code;
+                }
+            }
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
     }
 
     @AllArgsConstructor
     public enum SubCategory {
+        NOTICE("DWB011", "공지사항"),
+        FAQ("DWB021", "FAQ"),
+
         /**
          * 커뮤니티
          */
