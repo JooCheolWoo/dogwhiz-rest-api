@@ -26,7 +26,7 @@ public class BoardApiController {
         return  boardService.addPost(userDetails, request, files);
     }
 
-    @GetMapping
+    @PatchMapping
     public CustomResponse postList(@RequestBody RequestBoardDto.BoardListRequestDto request,
                                    CustomPageRequest pageRequest,
                                    String[] sort) {
