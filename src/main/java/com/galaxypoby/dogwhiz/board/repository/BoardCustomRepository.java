@@ -34,6 +34,10 @@ public class BoardCustomRepository {
                         .and(QBoard.board.subCategory.eq(subCategory)
                                 .and(QBoard.board.deletedAt.isNull())));
 
+        Long count = query.select(QBoard.board.count())
+                .from(QBoard.board)
+                .fetchOne();
+
         List<Board> results = query
                 .where(contentSearch(type, search))
                 .orderBy(contentOrderBy(pageable.getSort().toString()))
@@ -41,7 +45,7 @@ public class BoardCustomRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(results, pageable, results.size());
+        return new PageImpl<>(results, pageable, count);
     }
 
     private BooleanExpression contentSearch(String type, String search) {
