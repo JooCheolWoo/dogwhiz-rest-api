@@ -76,15 +76,23 @@ CREATE TABLE IF NOT EXISTS refresh_token (
 CREATE TABLE IF NOT EXISTS board (
     `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '게시글 번호',
     `member_id` BIGINT(20) UNSIGNED NOT NULL COMMENT '작성자 id',
-    `category` VARCHAR(50) NOT NULL COMMENT '게시판 카테고리',
-    `sub_category` VARCHAR(50) COMMENT '하위 카테고리',
+    `writer` VARCHAR(20) NOT NULL COMMENT '작성자 닉네임',
+    `writer_image_url` VARCHAR(255) COMMENT '작성자 프로필사진',
+    `category` ENUM('DWB010', 'DWB020', 'DWB030', 'DWB040', 'DWB050', 'DWB060', 'DWB070') NOT NULL COMMENT '게시판 카테고리',
+    `sub_category` ENUM('DWB011', 'DWB021'
+        , 'DWB031', 'DWB032', 'DWB033', 'DWB034',
+        'DWB041', 'DWB042', 'DWB043',
+        'DWB051', 'DWB052', 'DWB053',
+        'DWB061', 'DWB062', 'DWB063',
+        'DWB071') COMMENT '하위 카테고리',
     `pin_to_top` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '상단 고정',
     `title` VARCHAR(100) NOT NULL COMMENT '제목',
     `content` TEXT NOT NULL COMMENT '내용',
-    `like_count` INT NOT NULL DEFAULT 0 COMMENT '추천수',
-    `view_count` INT NOT NULL DEFAULT 0 COMMENT '조회수',
+    `like_count` INT DEFAULT 0 NOT NULL COMMENT '추천수',
+    `view_count` INT DEFAULT 0 NOT NULL COMMENT '조회수',
     `created_at` DATETIME COMMENT '생성일',
     `updated_at` DATETIME COMMENT '수정일',
     `deleted_at` DATETIME COMMENT '삭제일',
-     PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

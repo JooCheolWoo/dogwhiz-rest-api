@@ -45,12 +45,12 @@ public class MemberApiController {
 
     @GetMapping("/valid/email")
     public CustomResponse emailValid(@RequestParam("email") String email) {
-        return memberService.canUseEmail(email);
+        return memberService.emailDuplicationCheck(email);
     }
 
     @GetMapping("/valid/nickname")
     public CustomResponse nicknameValid(@RequestParam("nickname") String nickname) {
-        return memberService.canUseNickname(nickname);
+        return memberService.nicknameDuplicationCheck(nickname);
     }
 
     @GetMapping("/verification")

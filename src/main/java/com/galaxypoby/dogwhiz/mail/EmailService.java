@@ -34,7 +34,7 @@ public class EmailService {
             // Generate the HTML body using Thymeleaf
             String htmlBody = templateEngine.process(template, context);
 
-            mailHandler.setSubject(title);
+            mailHandler.setSubject("[도그위즈] " + title);
             mailHandler.setText(htmlBody);  // true indicates that the text is HTML
             mailHandler.setFrom("galaxypoby@gmail.com", "도그위즈");
             mailHandler.setTo(member.getEmail());

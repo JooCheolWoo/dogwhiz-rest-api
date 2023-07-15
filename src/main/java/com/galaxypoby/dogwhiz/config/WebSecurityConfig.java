@@ -45,7 +45,8 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/members", "/api/v1/refresh").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**", "/api/v1/members/verification").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**"
+                        , "/api/v1/members/verification", "/api/v1/boards").permitAll()
                 .antMatchers("/test").hasAuthority(MemberCode.Role.ADMIN_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()

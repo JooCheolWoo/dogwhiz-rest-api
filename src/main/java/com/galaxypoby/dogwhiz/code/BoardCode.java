@@ -72,7 +72,9 @@ public class BoardCode {
         CAFE("DWB061", "카페"),
         RESTAURANT("DWB062", "음식점"),
         PLAYGROUND("DWB063", "운동장"),
-        TRAVEL_COURSE("DWB064", "여행코스");
+        TRAVEL_COURSE("DWB064", "여행코스"),
+
+        HOSPITAL("DWB071", "병원찾기");
 
         @Getter
         private String code;

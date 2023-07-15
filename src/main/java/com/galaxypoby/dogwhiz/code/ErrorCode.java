@@ -19,6 +19,8 @@ public enum ErrorCode {
     MEMBER_STATUS_PENDING(1005,"승인 대기중인 회원입니다."),
     MEMBER_STATUS_SUSPENDED(1006, "이용이 정지된 회원입니다."),
     MEMBER_STATUS_DEACTIVATED(1007, "탈퇴한 회원입니다."),
+    MEMBER_ALREADY_VERIFIED(1008, "이미 인증된 회원입니다."),
+    MEMBER_FAIL_VERIFY(1009, "잘못된 인증키 또는 이메일입니다."),
 
     /**
      * 존재하는 상태코드 (400)
@@ -39,8 +41,7 @@ public enum ErrorCode {
     /**
      * 공통(3000)
      */
-    FAIL_SEND_EMAIL(3000, "메일 전송에 실패하였습니다."),
-    FAIL_VERIFY_EMAIL(3001, "잘못된 인증키 또는 이메일입니다.");
+    FAIL_SEND_EMAIL(3000, "메일 전송에 실패하였습니다.");
 
     @Getter
     private int status;

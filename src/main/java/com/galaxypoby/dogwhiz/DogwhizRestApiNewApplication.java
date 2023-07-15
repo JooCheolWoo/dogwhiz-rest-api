@@ -1,5 +1,6 @@
 package com.galaxypoby.dogwhiz;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.util.TimeZone;
 
 @EnableJpaAuditing

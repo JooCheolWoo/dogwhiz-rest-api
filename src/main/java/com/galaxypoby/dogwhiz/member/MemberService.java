@@ -39,13 +39,13 @@ public class MemberService {
     @Transactional
     public CustomResponse addMember(RequestMemberDto.SingUpDto request, MultipartFile file) throws CustomException {
 
-        // 이메일 중복검사 (이미 존재하면 false)
-        if (!(canUseEmail(request.getEmail()).getStatus() == 0)) {
+        // 이메일 중복검사
+        if (memberRepository.existsByEmail(request.getEmail())) {
             throw new CustomException(ErrorCode.MEMBER_EMAIL_DUPLICATION);
         }
 
-        // 닉네임 중복검사 (이미 존재하면 false)
-        if (!(canUseNickname(request.getNickname()).getStatus() == 0)) {
+        // 닉네임 중복검사
+        if (memberRepository.existsByNickname(request.getNickname())) {
             throw new CustomException(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
         }
 
@@ -77,23 +77,21 @@ public class MemberService {
 
         ResponseMemberDto.MemberDto response = modelMapper.map(member, ResponseMemberDto.MemberDto.class);
 
-        emailService.sendEmail(member, "[인증메일] 도그위즈", "verification");
+        emailService.sendEmail(member, "인증 이메일", "verification");
 
         return new CustomResponse(ErrorCode.OK, response);
     }
 
-    public CustomResponse canUseEmail(String email) {
-        Optional<Member> member = memberRepository.findByEmail(email);
-        if (member.isEmpty()) {
+    public CustomResponse emailDuplicationCheck(String email) {
+        if (!memberRepository.existsByEmail(email)) {
             return new CustomResponse(ErrorCode.OK);
         } else {
             return new CustomResponse(ErrorCode.MEMBER_EMAIL_DUPLICATION);
         }
     }
 
-    public CustomResponse canUseNickname(String nickname) {
-        Optional<Member> member = memberRepository.findByNickname(nickname);
-        if (member.isEmpty()) {
+    public CustomResponse nicknameDuplicationCheck(String nickname) {
+        if (!memberRepository.existsByNickname(nickname)) {
             return new CustomResponse(ErrorCode.OK);
         } else {
             return new CustomResponse(ErrorCode.MEMBER_NICKNAME_DUPLICATION);
@@ -142,11 +140,15 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
 
+        if (member.isEmailAuth()) {
+            throw new CustomException(ErrorCode.MEMBER_ALREADY_VERIFIED);
+        }
+
         if (member.getEmailKey().equals(emailKey)) {
             member.updateEmailAuth(true);
             member.updateStatus(MemberCode.Status.APPROVED.name());
         } else {
-            throw new CustomException(ErrorCode.FAIL_VERIFY_EMAIL);
+            throw new CustomException(ErrorCode.MEMBER_FAIL_VERIFY);
         }
 
         return new CustomResponse(ErrorCode.OK);

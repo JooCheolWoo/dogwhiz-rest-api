@@ -1,6 +1,7 @@
 package com.galaxypoby.dogwhiz.board.entity;
 
 import com.galaxypoby.dogwhiz.code.BoardCode;
+import com.galaxypoby.dogwhiz.member.entity.Member;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,9 +26,13 @@ public class Board {
     @Column(name = "id", updatable = false, columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
-    @Comment("작성자 id")
-    @Column(name = "member_id", updatable = false, nullable = false, columnDefinition = "BIGINT(20) UNSIGNED")
-    private Long memberId;
+    @Comment("작성자 닉네임")
+    @Column(name = "writer", nullable = false, columnDefinition = "VARCHAR(50)")
+    private String writer;
+
+    @Comment("작성자 프로필 이미지")
+    @Column(name = "writer_image_url", columnDefinition = "VARCHAR(255)")
+    private String writerImageUrl;
 
     @Comment("게시판 카테고리")
     @Column(nullable = false, columnDefinition = "VARCHAR(50)")
@@ -38,8 +43,9 @@ public class Board {
     private String subCategory;
 
     @Comment("상단 고정")
-    @Column(name = "pin_to_top", nullable = false, columnDefinition = "TINYINT(1) default=0")
-    private boolean pinToTop;
+    @Column(name = "pin_to_top", nullable = false, columnDefinition = "TINYINT(1) DEFAULT=0")
+    @Builder.Default
+    private boolean pinToTop = false;
 
     @Comment("제목")
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
@@ -50,15 +56,17 @@ public class Board {
     private String content;
 
     @Comment("추천수")
-    @Column(nullable = false, columnDefinition = "INT default=0")
-    private Long likeCount;
+    @Column(columnDefinition = "INT DEFAULT=0")
+    @Builder.Default
+    private Long likeCount = 0L;
 
     @Comment("조회수")
-    @Column(nullable = false, columnDefinition = "INT default=0")
-    private Long viewCount;
+    @Column(columnDefinition = "INT DEFAULT=0")
+    @Builder.Default
+    private Long viewCount = 0L;
 
     @Comment("생성일")
-    @Column(nullable = true, columnDefinition = "DATETIME")
+    @Column(nullable = false, columnDefinition = "DATETIME")
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -70,4 +78,8 @@ public class Board {
     @Comment("삭제일")
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
