@@ -34,9 +34,12 @@ public class BoardCustomRepository {
                         .and(QBoard.board.subCategory.eq(subCategory)
                                 .and(QBoard.board.deletedAt.isNull())));
 
-        Long count = query.select(QBoard.board.count())
+        Long count = new JPAQuery<>(entityManager)
+                .select(QBoard.board.count())
                 .from(QBoard.board)
-                .fetchOne();
+                .where(QBoard.board.category.eq(category)
+                        .and(QBoard.board.subCategory.eq(subCategory)
+                                .and(QBoard.board.deletedAt.isNull()))).fetchOne();
 
         List<Board> results = query
                 .where(contentSearch(type, search))
@@ -67,7 +70,7 @@ public class BoardCustomRepository {
         String column = sortArray[0].toUpperCase();
         String orderBy = sortArray[1].toUpperCase();
 
-        if(column.equals("") || orderBy.equals("")) {
+        if (column.equals("") || orderBy.equals("")) {
             return QBoard.board.createdAt.desc();
         } else if (orderBy.equals("ASC") && column.equals("CREATEDAT")) {
             return QBoard.board.createdAt.asc();
