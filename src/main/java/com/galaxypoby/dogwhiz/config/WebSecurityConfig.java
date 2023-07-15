@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/members", "/api/v1/refresh").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/banners", "/api/v1/members/valid/**"
-                        , "/api/v1/members/verification", "/api/v1/boards").permitAll()
+                        , "/api/v1/members/verification", "/api/v1/boards", "/api/v1/boards/").permitAll()
                 .antMatchers("/test").hasAuthority(MemberCode.Role.ADMIN_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
