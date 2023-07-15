@@ -41,9 +41,6 @@ public class BoardCustomRepository {
                         .and(QBoard.board.subCategory.eq(subCategory)
                                 .and(QBoard.board.deletedAt.isNull())))
                 .where(contentSearch(type, search))
-                .orderBy(contentOrderBy(pageable.getSort().toString()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetchOne();
 
         List<Board> results = query
