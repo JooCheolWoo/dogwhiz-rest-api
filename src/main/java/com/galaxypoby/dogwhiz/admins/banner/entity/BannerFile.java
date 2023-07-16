@@ -1,7 +1,6 @@
-package com.galaxypoby.dogwhiz.banner.entity;
+package com.galaxypoby.dogwhiz.admins.banner.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.galaxypoby.dogwhiz.member.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

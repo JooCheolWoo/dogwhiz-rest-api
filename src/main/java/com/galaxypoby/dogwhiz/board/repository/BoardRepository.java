@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    List<Board> findByCategoryAndSubCategoryAndPinToTopAndDeletedAtIsNullOrderByCreatedAtDesc(String category, String subCategory, boolean pinToTop);
+    List<Board> findBySubCategory_IdAndPinToTopIsTrueAndDeletedAtIsNull(Long subCategoryId);
+    List<Board> findByCategory_IdAndPinToTopIsTrueAndDeletedAtIsNull(Long categoryId);
 }

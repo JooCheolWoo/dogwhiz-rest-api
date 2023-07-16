@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.banner.entity;
+package com.galaxypoby.dogwhiz.admins.banner.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QBannerFile extends EntityPathBase<BannerFile> {
 
-    private static final long serialVersionUID = -909005092L;
+    private static final long serialVersionUID = 866822544L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

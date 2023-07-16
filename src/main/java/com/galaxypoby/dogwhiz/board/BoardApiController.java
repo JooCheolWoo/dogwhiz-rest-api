@@ -23,13 +23,14 @@ public class BoardApiController {
     public CustomResponse postAdd(@AuthenticationPrincipal UserDetails userDetails,
                                   @RequestPart(name = "request") @Valid RequestBoardDto.BoardDto request,
                                   @RequestPart(name = "file", required = false) MultipartFile[] files) throws CustomException {
-        return  boardService.addPost(userDetails, request, files);
+        return  boardService.addBoard(userDetails, request, files);
     }
 
     @PatchMapping
-    public CustomResponse postList(@RequestBody RequestBoardDto.BoardListRequestDto request,
+    public CustomResponse postList(@AuthenticationPrincipal UserDetails userDetails,
+                                   @RequestBody RequestBoardDto.BoardListRequestDto request,
                                    CustomPageRequest pageRequest,
-                                   String[] sort) {
-        return boardService.getPostList(request, pageRequest.of(sort), sort);
+                                   String[] sort) throws CustomException {
+        return boardService.getBoardList(userDetails, request, pageRequest.of(sort), sort);
     }
 }

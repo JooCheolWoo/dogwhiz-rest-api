@@ -1,11 +1,14 @@
 package com.galaxypoby.dogwhiz.board;
 
+import com.galaxypoby.dogwhiz.admins.category.entity.Category;
+import com.galaxypoby.dogwhiz.admins.category.entity.SubCategory;
+import com.galaxypoby.dogwhiz.admins.category.repository.CategoryRepository;
+import com.galaxypoby.dogwhiz.admins.category.repository.SubCategoryRepository;
 import com.galaxypoby.dogwhiz.board.dto.RequestBoardDto;
 import com.galaxypoby.dogwhiz.board.dto.ResponseBoardDto;
 import com.galaxypoby.dogwhiz.board.entity.Board;
 import com.galaxypoby.dogwhiz.board.repository.BoardCustomRepository;
 import com.galaxypoby.dogwhiz.board.repository.BoardRepository;
-import com.galaxypoby.dogwhiz.code.BoardCode;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.Common;
 import com.galaxypoby.dogwhiz.common.CustomException;
@@ -38,24 +41,30 @@ public class BoardService {
     private final FileManager fileManager;
     private final ModelMapper modelMapper;
     private final BoardCustomRepository boardCustomRepository;
+    private final CategoryRepository categoryRepository;
+    private final SubCategoryRepository subCategoryRepository;
 
     @Transactional
-    public CustomResponse addPost(UserDetails userDetails, RequestBoardDto.BoardDto request, MultipartFile[] files) throws CustomException {
+    public CustomResponse addBoard(UserDetails userDetails, RequestBoardDto.BoardDto request, MultipartFile[] files) throws CustomException {
         String email = userDetails.getUsername();
 
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
 
-        if (request.getCategory().equals(BoardCode.Category.NOTICE.getCode())) {
-            Common.checkAdmin(member);
+
+        SubCategory subCategory = subCategoryRepository.findByCategory_NameAndName(request.getCategory(), request.getSubCategory())
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_EXIST));
+
+        if (subCategory.getCategory().getCudAuth() != null) {
+            Common.checkAuth(member, subCategory.getCategory().getCudAuth());
         }
 
         Board board = Board.builder()
                 .member(member)
                 .writer(member.getNickname())
                 .writerImageUrl(member.getImageUrl())
-                .category(request.getCategory())
-                .subCategory(request.getSubCategory())
+                .category(subCategory.getCategory())
+                .subCategory(subCategory)
                 .pinToTop(request.isPinToTop())
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -68,14 +77,44 @@ public class BoardService {
         return new CustomResponse(ErrorCode.OK, response);
     }
 
-    public CustomResponse getPostList(RequestBoardDto.BoardListRequestDto request, Pageable pageable, String[] sort) {
+    public CustomResponse getBoardList(UserDetails userDetails, RequestBoardDto.BoardListRequestDto request, Pageable pageable, String[] sort) throws CustomException {
 
-        Page<Board> boards = boardCustomRepository.getList(request, pageable);
+        String email = userDetails.getUsername();
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+
+        Category category = categoryRepository.findByName(request.getCategory())
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_EXIST));
+
+        if (category.getReadAuth() != null) {
+            Common.checkAuth(member, category.getReadAuth());
+        }
+
+        SubCategory subCategory = null;
+        Page<Board> boards = null;
+        if (request.getSubCategory() != null && !request.getSubCategory().isEmpty()) {
+            subCategory = subCategoryRepository.findByCategory_NameAndName(request.getCategory(), request.getSubCategory())
+                    .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_EXIST));
+            boards = boardCustomRepository.getSubCategoryList(request, subCategory, pageable);
+        } else {
+            boards = boardCustomRepository.getCategoryList(request, category, pageable);
+        }
+
+
+
+
         Page<ResponseBoardDto.BoardListDto> list = boards.map(board -> modelMapper.map(board, ResponseBoardDto.BoardListDto.class));
 
         List<ResponseBoardDto.BoardListDto> fixedResponse = new ArrayList<>();
         if (request.getSearch().isEmpty()) {
-            List<Board> fixedList = boardRepository.findByCategoryAndSubCategoryAndPinToTopAndDeletedAtIsNullOrderByCreatedAtDesc(request.getCategory(), request.getSubCategory(), true);
+            List<Board> fixedList = null;
+            if (request.getSubCategory() != null && !request.getSubCategory().isEmpty()) {
+                fixedList = boardRepository.findBySubCategory_IdAndPinToTopIsTrueAndDeletedAtIsNull(subCategory.getId());
+            } else {
+                fixedList = boardRepository.findByCategory_IdAndPinToTopIsTrueAndDeletedAtIsNull(category.getId());
+            }
             fixedResponse = modelMapper.map(fixedList, new TypeToken<List<ResponseBoardDto.BoardListDto>>() {}.getType());
         }
 

@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.banner.entity;
+package com.galaxypoby.dogwhiz.admins.banner.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

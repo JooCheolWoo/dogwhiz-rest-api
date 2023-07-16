@@ -9,18 +9,23 @@ public enum ErrorCode {
     OK(0, "성공"),
 
     /**
-     * 회원 (1000)
+     * 회원 (100)
      */
-    MEMBER_NOT_EXIST(1000, "존재하지 않는 회원입니다."),
-    MEMBER_EMAIL_DUPLICATION(1001, "중복된 이메일이 존재합니다."),
-    MEMBER_NICKNAME_DUPLICATION(1002, "중복된 닉네임이 존재합니다."),
-    MEMBER_PASSWORD_NOT_MATCH(1003, "비밀번호가 일치하지 않습니다."),
-    MEMBER_ABNORMAL_REFRESH(1004, "잘못된 재인증 요청입니다."),
-    MEMBER_STATUS_PENDING(1005,"승인 대기중인 회원입니다."),
-    MEMBER_STATUS_SUSPENDED(1006, "이용이 정지된 회원입니다."),
-    MEMBER_STATUS_DEACTIVATED(1007, "탈퇴한 회원입니다."),
-    MEMBER_ALREADY_VERIFIED(1008, "이미 인증된 회원입니다."),
-    MEMBER_FAIL_VERIFY(1009, "잘못된 인증키 또는 이메일입니다."),
+    MEMBER_NOT_EXIST(100, "존재하지 않는 회원입니다."),
+    MEMBER_EMAIL_DUPLICATION(101, "중복된 이메일이 존재합니다."),
+    MEMBER_NICKNAME_DUPLICATION(102, "중복된 닉네임이 존재합니다."),
+    MEMBER_PASSWORD_NOT_MATCH(103, "비밀번호가 일치하지 않습니다."),
+    MEMBER_ABNORMAL_REFRESH(104, "잘못된 재인증 요청입니다."),
+    MEMBER_STATUS_PENDING(105,"승인 대기중인 회원입니다."),
+    MEMBER_STATUS_SUSPENDED(106, "이용이 정지된 회원입니다."),
+    MEMBER_STATUS_DEACTIVATED(107, "탈퇴한 회원입니다."),
+    MEMBER_ALREADY_VERIFIED(108, "이미 인증된 회원입니다."),
+    MEMBER_FAIL_VERIFY(109, "잘못된 인증키 또는 이메일입니다."),
+
+    /**
+     * 게시판 (200)
+     */
+    CATEGORY_NOT_EXIST(200, "존재하지 않는 카테고리입니다."),
 
     /**
      * 존재하는 상태코드 (400)

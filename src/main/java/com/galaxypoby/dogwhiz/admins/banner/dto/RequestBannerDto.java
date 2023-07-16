@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.banner.dto;
+package com.galaxypoby.dogwhiz.admins.banner.dto;
 
 import lombok.Getter;
 

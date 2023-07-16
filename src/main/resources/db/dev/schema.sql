@@ -26,11 +26,12 @@ CREATE TABLE IF NOT EXISTS `member` (
 CREATE TABLE `member_role` (
     `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'role 번호',
     `member_id` BIGINT(20) UNSIGNED NOT NULL,
-    `role` VARCHAR(20) NOT NULL COMMENT '역할',
+    `role` ENUM('ADMIN_MASTER', 'ADMIN_MANAGER', 'ADMIN_NORMAL', 'SELLER_CORPORATION', 'SELLER_PERSONAL', 'SELLER_NORMAL',
+        'USER_SPECIAL', 'USER_CERTIFIED', 'USER_NORMAL') NOT NULL COMMENT '역할',
     PRIMARY KEY (`id`),
-    CONSTRAINT `fk_member_role_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+    FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
     UNIQUE KEY `uk_member_role` (`member_id`, `role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `member_address` (
     `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `member_address` (
     `street` VARCHAR(225) NOT NULL,
     `detail` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS banner (
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS banner_file (
     updated_at DATETIME comment '수정 날짜',
     deleted_at DATETIME comment '삭제 날짜',
     primary key (banner_id),
-    FOREIGN KEY (`banner_id`) REFERENCES `banner` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`banner_id`) REFERENCES `banner` (`id`) ON DELETE CASCADE  ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS refresh_token (
@@ -73,26 +74,40 @@ CREATE TABLE IF NOT EXISTS refresh_token (
     primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS category (
+    id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    name VARCHAR(50) NOT NULL COMMENT '카테고리 이름',
+    read_auth VARCHAR(255) COMMENT '읽기권한',
+    cud_auth VARCHAR(255) COMMENT '작성권한',
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS sub_category (
+    id BIGINT UNSIGNED AUTO_INCREMENT NOT NULL,
+    category_id BIGINT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL COMMENT '하위 카테고리 이름',
+    PRIMARY KEY (id),
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE  ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 CREATE TABLE IF NOT EXISTS board (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '게시글 번호',
-    `member_id` BIGINT(20) UNSIGNED NOT NULL COMMENT '작성자 id',
-    `writer` VARCHAR(20) NOT NULL COMMENT '작성자 닉네임',
-    `writer_image_url` VARCHAR(255) COMMENT '작성자 프로필사진',
-    `category` ENUM('DWB010', 'DWB020', 'DWB030', 'DWB040', 'DWB050', 'DWB060', 'DWB070') NOT NULL COMMENT '게시판 카테고리',
-    `sub_category` ENUM('DWB011', 'DWB021'
-        , 'DWB031', 'DWB032', 'DWB033', 'DWB034',
-        'DWB041', 'DWB042', 'DWB043',
-        'DWB051', 'DWB052', 'DWB053',
-        'DWB061', 'DWB062', 'DWB063',
-        'DWB071') COMMENT '하위 카테고리',
-    `pin_to_top` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '상단 고정',
-    `title` VARCHAR(100) NOT NULL COMMENT '제목',
-    `content` TEXT NOT NULL COMMENT '내용',
-    `like_count` INT DEFAULT 0 NOT NULL COMMENT '추천수',
-    `view_count` INT DEFAULT 0 NOT NULL COMMENT '조회수',
-    `created_at` DATETIME COMMENT '생성일',
-    `updated_at` DATETIME COMMENT '수정일',
-    `deleted_at` DATETIME COMMENT '삭제일',
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    id BIGINT(20) UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '게시글 번호',
+    writer VARCHAR(50) NOT NULL COMMENT '작성자 닉네임',
+    writer_image_url VARCHAR(255) COMMENT '작성자 프로필 이미지',
+    category_id BIGINT UNSIGNED NOT NULL COMMENT '카테고리',
+    sub_category_id BIGINT UNSIGNED NOT NULL COMMENT '하위 카테고리',
+    pin_to_top TINYINT(1) DEFAULT 0 NOT NULL COMMENT '상단 고정',
+    title VARCHAR(100) NOT NULL COMMENT '제목',
+    content TEXT NOT NULL COMMENT '내용',
+    like_count INT DEFAULT 0 COMMENT '추천수',
+    view_count INT DEFAULT 0 COMMENT '조회수',
+    created_at DATETIME NOT NULL COMMENT '생성일',
+    updated_at DATETIME COMMENT '수정일',
+    deleted_at DATETIME COMMENT '삭제일',
+    member_id BIGINT UNSIGNED,
+    PRIMARY KEY (id),
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sub_category_id) REFERENCES sub_category(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

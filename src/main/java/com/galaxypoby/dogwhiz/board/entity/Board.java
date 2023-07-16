@@ -1,6 +1,8 @@
 package com.galaxypoby.dogwhiz.board.entity;
 
-import com.galaxypoby.dogwhiz.code.BoardCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.galaxypoby.dogwhiz.admins.category.entity.Category;
+import com.galaxypoby.dogwhiz.admins.category.entity.SubCategory;
 import com.galaxypoby.dogwhiz.member.entity.Member;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -34,13 +36,13 @@ public class Board {
     @Column(name = "writer_image_url", columnDefinition = "VARCHAR(255)")
     private String writerImageUrl;
 
-    @Comment("게시판 카테고리")
-    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
-    private String category;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Comment("하위 카테고리")
-    @Column(nullable = true, columnDefinition = "VARCHAR(50)")
-    private String subCategory;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sub_category_id", nullable = false)
+    private SubCategory subCategory;
 
     @Comment("상단 고정")
     @Column(name = "pin_to_top", nullable = false, columnDefinition = "TINYINT(1) DEFAULT=0")
@@ -79,6 +81,7 @@ public class Board {
     @Column(nullable = true, columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

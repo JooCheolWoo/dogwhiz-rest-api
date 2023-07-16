@@ -1,10 +1,10 @@
-package com.galaxypoby.dogwhiz.banner;
+package com.galaxypoby.dogwhiz.admins.banner;
 
-import com.galaxypoby.dogwhiz.banner.dto.RequestBannerDto;
-import com.galaxypoby.dogwhiz.banner.dto.ResponseBannerDto;
-import com.galaxypoby.dogwhiz.banner.entity.Banner;
-import com.galaxypoby.dogwhiz.banner.entity.BannerFile;
-import com.galaxypoby.dogwhiz.banner.repository.BannerRepository;
+import com.galaxypoby.dogwhiz.admins.banner.dto.ResponseBannerDto;
+import com.galaxypoby.dogwhiz.admins.banner.dto.RequestBannerDto;
+import com.galaxypoby.dogwhiz.admins.banner.entity.Banner;
+import com.galaxypoby.dogwhiz.admins.banner.entity.BannerFile;
+import com.galaxypoby.dogwhiz.admins.banner.repository.BannerRepository;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;

@@ -1,5 +1,7 @@
 package com.galaxypoby.dogwhiz.board.repository;
 
+import com.galaxypoby.dogwhiz.admins.category.entity.Category;
+import com.galaxypoby.dogwhiz.admins.category.entity.SubCategory;
 import com.galaxypoby.dogwhiz.board.dto.RequestBoardDto;
 import com.galaxypoby.dogwhiz.board.entity.Board;
 import com.galaxypoby.dogwhiz.board.entity.QBoard;
@@ -21,25 +23,49 @@ import java.util.List;
 public class BoardCustomRepository {
     private final EntityManager entityManager;
 
-    public Page<Board> getList(RequestBoardDto.BoardListRequestDto request, Pageable pageable) {
-        String category = request.getCategory();
-        String subCategory = request.getSubCategory();
+    public Page<Board> getSubCategoryList(RequestBoardDto.BoardListRequestDto request, SubCategory subCategory, Pageable pageable) {
         String type = request.getType();
         String search = request.getSearch();
 
         JPAQuery<Board> query = new JPAQuery<>(entityManager)
                 .select(QBoard.board)
                 .from(QBoard.board)
-                .where(QBoard.board.category.eq(category)
-                        .and(QBoard.board.subCategory.eq(subCategory)
-                                .and(QBoard.board.deletedAt.isNull())));
+                .where(QBoard.board.subCategory.id.eq(subCategory.getId())
+                        .and(QBoard.board.deletedAt.isNull()));
 
         Long count = new JPAQuery<>(entityManager)
                 .select(QBoard.board.count())
                 .from(QBoard.board)
-                .where(QBoard.board.category.eq(category)
-                        .and(QBoard.board.subCategory.eq(subCategory)
-                                .and(QBoard.board.deletedAt.isNull())))
+                .where(QBoard.board.subCategory.id.eq(subCategory.getId())
+                        .and(QBoard.board.deletedAt.isNull()))
+                .where(contentSearch(type, search))
+                .fetchOne();
+
+        List<Board> results = query
+                .where(contentSearch(type, search))
+                .orderBy(contentOrderBy(pageable.getSort().toString()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, count);
+    }
+
+    public Page<Board> getCategoryList(RequestBoardDto.BoardListRequestDto request, Category category, Pageable pageable) {
+        String type = request.getType();
+        String search = request.getSearch();
+
+        JPAQuery<Board> query = new JPAQuery<>(entityManager)
+                .select(QBoard.board)
+                .from(QBoard.board)
+                .where(QBoard.board.category.id.eq(category.getId())
+                        .and(QBoard.board.deletedAt.isNull()));
+
+        Long count = new JPAQuery<>(entityManager)
+                .select(QBoard.board.count())
+                .from(QBoard.board)
+                .where(QBoard.board.category.id.eq(category.getId())
+                        .and(QBoard.board.deletedAt.isNull()))
                 .where(contentSearch(type, search))
                 .fetchOne();
 

@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.banner.dto;
+package com.galaxypoby.dogwhiz.admins.banner.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -6,17 +6,16 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ResponseBannerFileDto {
+public class ResponseBannerDto {
     private Long id;
-    private Long bannerId;
-    private String name;
+    private String title;
     private String url;
-    private String path;
-    private Long size;
+    private boolean exposure;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime deletedAt;
+    private ResponseBannerFileDto bannerFile;
 }

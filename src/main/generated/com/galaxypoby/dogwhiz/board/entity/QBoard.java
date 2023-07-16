@@ -22,7 +22,7 @@ public class QBoard extends EntityPathBase<Board> {
 
     public static final QBoard board = new QBoard("board");
 
-    public final StringPath category = createString("category");
+    public final com.galaxypoby.dogwhiz.admins.category.entity.QCategory category;
 
     public final StringPath content = createString("content");
 
@@ -38,7 +38,7 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final BooleanPath pinToTop = createBoolean("pinToTop");
 
-    public final StringPath subCategory = createString("subCategory");
+    public final com.galaxypoby.dogwhiz.admins.category.entity.QSubCategory subCategory;
 
     public final StringPath title = createString("title");
 
@@ -68,7 +68,9 @@ public class QBoard extends EntityPathBase<Board> {
 
     public QBoard(Class<? extends Board> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.category = inits.isInitialized("category") ? new com.galaxypoby.dogwhiz.admins.category.entity.QCategory(forProperty("category")) : null;
         this.member = inits.isInitialized("member") ? new com.galaxypoby.dogwhiz.member.entity.QMember(forProperty("member")) : null;
+        this.subCategory = inits.isInitialized("subCategory") ? new com.galaxypoby.dogwhiz.admins.category.entity.QSubCategory(forProperty("subCategory"), inits.get("subCategory")) : null;
     }
 
 }

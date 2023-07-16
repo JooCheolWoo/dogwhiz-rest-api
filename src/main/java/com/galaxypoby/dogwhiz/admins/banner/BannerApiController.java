@@ -1,6 +1,6 @@
-package com.galaxypoby.dogwhiz.banner;
+package com.galaxypoby.dogwhiz.admins.banner;
 
-import com.galaxypoby.dogwhiz.banner.dto.RequestBannerDto;
+import com.galaxypoby.dogwhiz.admins.banner.dto.RequestBannerDto;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
 import lombok.RequiredArgsConstructor;

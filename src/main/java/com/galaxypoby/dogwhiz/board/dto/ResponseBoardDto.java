@@ -1,7 +1,7 @@
 package com.galaxypoby.dogwhiz.board.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.galaxypoby.dogwhiz.code.BoardCode;
+import com.galaxypoby.dogwhiz.admins.category.entity.Category;
+import com.galaxypoby.dogwhiz.admins.category.entity.SubCategory;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -29,12 +29,12 @@ public class ResponseBoardDto {
         private LocalDateTime updatedAt;
         private LocalDateTime deletedAt;
 
-        public void setCategory(String category) {
-            this.category = BoardCode.Category.codeToValue(category);
+        public void setCategory(Category category) {
+            this.category = category.getName();
         }
 
-        public void setSubCategory(String subCategory) {
-            this.subCategory =  BoardCode.SubCategory.codeToValue(subCategory);
+        public void setSubCategory(SubCategory subCategory) {
+            this.subCategory = subCategory.getName();
         }
     }
 
@@ -53,12 +53,12 @@ public class ResponseBoardDto {
         private Long viewCount;
         private LocalDateTime createdAt;
 
-        public void setCategory(String category) {
-            this.category = BoardCode.Category.codeToValue(category);
+        public void setCategory(Category category) {
+            this.category = category.getName();
         }
 
-        public void setSubCategory(String subCategory) {
-            this.subCategory =  BoardCode.SubCategory.codeToValue(subCategory);
+        public void setSubCategory(SubCategory subCategory) {
+            this.subCategory = subCategory.getName();
         }
     }
 

@@ -14,7 +14,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +44,7 @@ public class Member {
     private String password;
 
     @Comment("회원상태")
-    @Column(nullable = false, columnDefinition = "VARCAHR(20)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(20)")
     private String status;
 
     @Comment("이름")
@@ -108,10 +107,6 @@ public class Member {
     @JsonIgnore
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<MemberRole> memberRoles;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MemberAddress> memberAddresses;
 
     public void setEncodedPwd(String encodedPwd) {
         this.password = encodedPwd;
