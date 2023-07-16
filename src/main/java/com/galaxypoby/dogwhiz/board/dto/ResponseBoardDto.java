@@ -54,7 +54,6 @@ public class ResponseBoardDto {
         private String content;
         private Long likeCount;
         private Long viewCount;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
 
         public void setCategory(String category) {
