@@ -25,11 +25,8 @@ public class ResponseBoardDto {
         private String content;
         private Long likeCount;
         private Long viewCount;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy'.'MM'.'dd HH:mm:ss")
         private LocalDateTime createdAt;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy'.'MM'.'dd HH:mm:ss")
         private LocalDateTime updatedAt;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy'.'MM'.'dd HH:mm:ss")
         private LocalDateTime deletedAt;
 
         public void setCategory(String category) {
@@ -54,7 +51,6 @@ public class ResponseBoardDto {
         private String content;
         private Long likeCount;
         private Long viewCount;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy'.'MM'.'dd HH:mm:ss")
         private LocalDateTime createdAt;
 
         public void setCategory(String category) {
