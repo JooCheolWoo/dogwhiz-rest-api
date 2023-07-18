@@ -1,18 +1,9 @@
-server:
-  port: 10800
+# Spring Boot configuration for the "dev" profile.
 
 spring:
-  main:
-    allow-circular-references: true
   config:
     activate:
       on-profile: dev
-
-  datasource:
-    url: jdbc:mariadb://${rds-url}:${rds-port}/${rds-schema}
-    username: ${rds-user}
-    password: ${rds-pass}
-    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
@@ -29,20 +20,8 @@ spring:
         classpath*:db/drop_table.sql,
         classpath*:db/dev/schema.sql,
         classpath*:db/dev/data.sql
-#        classpath*:db/alter_table.sql
+#       classpath*:db/alter_table.sql
       mode: always
-
-  servlet:
-    multipart:
-      max-file-size: -1
-      max-request-size: -1
-
-  mail:
-    host: ${mail-host}
-    port: 587
-    username: ${mail-user}
-    password: ${mail-pass}
-
 
 logging:
   level:
@@ -51,9 +30,5 @@ logging:
     org.springframework.boot: info
     com.galaxypoby.dogwhiz: debug
 
-path:
-  rootURL: ${web-server}
-
 jwt:
-  issuer: hellodogwhiz.com
-  secret_key: ${secretKey}
+  issuer: dev.hellodogwhiz.com

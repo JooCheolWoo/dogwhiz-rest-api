@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.mail;
+package com.galaxypoby.dogwhiz.admins.mail;
 
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;

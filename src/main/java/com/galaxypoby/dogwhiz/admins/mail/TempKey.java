@@ -1,4 +1,4 @@
-package com.galaxypoby.dogwhiz.mail;
+package com.galaxypoby.dogwhiz.admins.mail;
 
 import java.util.Random;
 

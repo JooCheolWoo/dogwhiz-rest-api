@@ -4,8 +4,8 @@ import com.galaxypoby.dogwhiz.code.MemberCode;
 import com.galaxypoby.dogwhiz.code.ErrorCode;
 import com.galaxypoby.dogwhiz.common.CustomException;
 import com.galaxypoby.dogwhiz.common.CustomResponse;
-import com.galaxypoby.dogwhiz.mail.EmailService;
-import com.galaxypoby.dogwhiz.mail.TempKey;
+import com.galaxypoby.dogwhiz.admins.mail.EmailService;
+import com.galaxypoby.dogwhiz.admins.mail.TempKey;
 import com.galaxypoby.dogwhiz.member.entity.MemberRole;
 import com.galaxypoby.dogwhiz.util.FileManager;
 import com.galaxypoby.dogwhiz.member.dto.RequestMemberDto;
@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j

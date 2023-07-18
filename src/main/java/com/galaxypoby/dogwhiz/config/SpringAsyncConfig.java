@@ -1,24 +1,41 @@
 package com.galaxypoby.dogwhiz.config;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
+@Slf4j
 @Configuration
 @EnableAsync
-public class SpringAsyncConfig {
-    @Bean
-    public Executor threadPoolTaskExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(5); // 기본 스레드 수
-        taskExecutor.setMaxPoolSize(30); // 최대 스레드 수
-        taskExecutor.setQueueCapacity(100); // Queue 사이즈
-        taskExecutor.setThreadNamePrefix("Executor-");
-        taskExecutor.initialize();
-        return taskExecutor;
+@EnableScheduling
+@RequiredArgsConstructor
+public class SpringAsyncConfig implements AsyncConfigurer {
+
+    private final TaskExecutionProperties taskExecutionProperties;
+
+    @Override
+    public Executor getAsyncExecutor() {
+        log.debug("Creating Async Task Executor");
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(taskExecutionProperties.getPool().getCoreSize());
+        executor.setMaxPoolSize(taskExecutionProperties.getPool().getMaxSize());
+        executor.setQueueCapacity(taskExecutionProperties.getPool().getQueueCapacity());
+        executor.setThreadNamePrefix(taskExecutionProperties.getThreadNamePrefix());
+        executor.initialize();
+        return executor;
     }
 
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return AsyncConfigurer.super.getAsyncUncaughtExceptionHandler();
+    }
 }

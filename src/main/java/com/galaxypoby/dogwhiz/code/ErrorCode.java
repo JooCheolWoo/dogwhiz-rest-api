@@ -28,6 +28,14 @@ public enum ErrorCode {
     CATEGORY_NOT_EXIST(200, "존재하지 않는 카테고리입니다."),
 
     /**
+     * 파일(300)
+     */
+    FILE_NOT_REGISTERED(300, "파일이 등록되지 않았습니다."),
+    FILE_NOT_IMAGE(301, "이미지 파일만 등록이 가능합니다."),
+    FILE_OVER_SIZE(302, "업로드 허용 용량을 초과합니다."),
+    FILE_FAIL_MKDIR(303, "폴더 생성에 실패하였습니다."),
+
+    /**
      * 존재하는 상태코드 (400)
      */
     TOKEN_NOT_EXIST(400, "JWT 토큰이 존재하지 않습니다."),
@@ -36,12 +44,6 @@ public enum ErrorCode {
     API_NOT_FOUND(404, "해당 API를 찾을 수 없습니다."),
     METHOD_NOT_ALLOWED(405, "허용되지 않는 API 호출입니다."),
 
-    /**
-     * 파일(2000)
-     */
-    FILE_NOT_REGISTERED(2000, "파일이 등록되지 않았습니다."),
-    FILE_NOT_IMAGE(2001, "이미지 파일만 등록이 가능합니다."),
-    FILE_OVER_SIZE(2002, "업로드 허용 용량을 초과합니다."),
 
     /**
      * 공통(3000)

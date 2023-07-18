@@ -1,0 +1,57 @@
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+  port: 10800
+
+spring:
+  main:
+    allow-circular-references: true
+
+  mail:
+    host: ${mail-host}
+    port: ${mail-port}
+    username: ${mail-user}
+    password: ${mail-pass}
+
+  datasource:
+    url: jdbc:mariadb://${rds-url}:${rds-port}/${rds-schema}
+    username: ${rds-user}
+    password: ${rds-pass}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: false
+        order_updates: true
+        order_inserts: true
+
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+  task:
+    execution:
+      thread-name-prefix: dogwhiz-task-
+      pool:
+        core-size: 2
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: dogwhiz-scheduling-
+      pool:
+        size: 2
+
+path:
+  rootURL: ${web-server}
+
+jwt:
+  issuer: hellodogwhiz.com
+  secret_key: ${secretKey}

@@ -1,6 +1,7 @@
-package com.galaxypoby.dogwhiz.config;
+package com.galaxypoby.dogwhiz.admins.mail;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,7 +25,6 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender javaMailSender() {
-
         Properties mailProperties = new Properties();
         mailProperties.put("mail.transport.protocol", "smtp");
         mailProperties.put("mail.smtp.auth", "true");
@@ -38,7 +38,7 @@ public class MailConfig {
         mailSender.setHost(host);
         mailSender.setPort(port);
         mailSender.setUsername(username);
-        mailSender.setPassword(password); // 환경변수로 수정해야함
+        mailSender.setPassword(password);
         mailSender.setDefaultEncoding("utf-8");
         return mailSender;
     }
