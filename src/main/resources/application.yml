@@ -11,7 +11,7 @@ spring:
 
   mail:
     host: ${mail-host}
-    port: ${mail-port}
+    port: 587
     username: ${mail-user}
     password: ${mail-pass}
 
